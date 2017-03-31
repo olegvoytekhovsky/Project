@@ -1,0 +1,10 @@
+.gradle
+build.gradle
+settings.gradle
+build
+client/dist
+client/node_modules
+client/build.gradle
+client/src/.idea
+src/webapp/WEB-INF/lib
+src/resource/.idea

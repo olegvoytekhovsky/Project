@@ -1,0 +1,25 @@
+<div class="container" style="width: 40%; float: left">
+    <h1><u>Add new forum</u></h1>
+    <form>
+        <div>
+            <label>Title</label>
+            <input #boxTitle type="text" class="form-control" (keyup)="onTitle(boxTitle.value)">
+        </div>
+        <div>
+            <label>Invite users</label>
+            <textarea #boxUsersNames class="form-control" (keyup)="onUsersNames(boxUsersNames.value)"></textarea>
+            {{invalidUsersMessage}}
+        </div>
+
+        <div>
+            <label>Description</label>
+            <textarea #boxDescription class="form-control" (keyup)="onDescription(boxDescription.value)"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary"
+                (click)="onCreate()">Create
+        </button>
+        <a routerLink="/forum" class="btn">Cancel</a>
+    </form>
+</div>
+

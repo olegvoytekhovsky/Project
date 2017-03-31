@@ -1,0 +1,15 @@
+<div class="container" style="width:40%; height:80%; float:left">
+  <div>
+    <h1>{{ user.name }}</h1>
+    {{checkGetUsers}}
+  <ul style="list-style-type:none">
+    <li *ngFor="let message of messages">{{message.message}}</li> 
+  </ul>
+</div>
+<div>
+    <textarea #box class="form-control" style="margin-top: 400px;"></textarea>
+    <a class="btn btn-primary" (click)="onSend(box.value)">Send</a>
+  </div>
+  {{checkSendMessage}}
+  {{checkGetMessages}}
+</div>
