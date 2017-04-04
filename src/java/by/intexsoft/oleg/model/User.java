@@ -37,7 +37,7 @@ public class User extends AbstractPersistable<Integer> {
 	};
 
 	/**
-	* Add {@link Message} instance to a list {@link Message}s
+	* Add {@link Message} instance to a list of {@link Message}s
 	*/
 	public void addMessage(Message message) {
 		if(messages == null)

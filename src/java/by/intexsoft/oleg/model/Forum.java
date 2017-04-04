@@ -46,7 +46,7 @@ public class Forum extends AbstractPersistable<Integer> {
 	private List<Message> messages;
 
 	/**
-	 * Add {@link User} instance to a set {@link User}s
+	 * Add {@link User} instance to a set of {@link User}s
 	 */
 	public void addUser(User user) {
 		if(users == null)		
@@ -55,7 +55,7 @@ public class Forum extends AbstractPersistable<Integer> {
 	}
 
 	/**
-	* Add {@link Message} instance to list {@link Message}s
+	* Add {@link Message} instance to list of {@link Message}s
 	*/
 	public void addMessage(Message message) {
 		if(messages == null)
