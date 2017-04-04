@@ -12,10 +12,28 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 @Table(name = "messages")
 public class Message extends AbstractPersistable<Integer> {
-	/**
+    /**
 	 * Specify the details of the column to which a field will be mapped
 	 */
 	@Column
 	public String message;
+
+	private Message() {
+
+	}
+
+	/**
+	 * Constructor provides to asign a parameter to a field
+	 */
+	public Message(String message) {
+		this.message = message;
+	}
+
+	/**
+	 * @return String message
+	 */
+	public String getMessage() {
+		return message;
+	}
 
 }

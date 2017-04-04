@@ -10,7 +10,7 @@ import by.intexsoft.oleg.model.User;
 import by.intexsoft.oleg.service.UserService;
 
 /**
- * Class where method returns domain object
+ * class where method returns domain object
  */
 @RestController
 public class UserController {

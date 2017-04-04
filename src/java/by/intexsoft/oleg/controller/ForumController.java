@@ -12,11 +12,12 @@ import java.util.List;
 import java.util.ArrayList;
 import by.intexsoft.oleg.model.Forum;
 import by.intexsoft.oleg.model.User;
+import by.intexsoft.oleg.model.Message;
 import by.intexsoft.oleg.service.ForumService;
 import by.intexsoft.oleg.service.UserService;
 
 /**
- * Class where methods returns domain objects
+ * class where methods returns domain objects
  */
 @RestController
 public class ForumController {
@@ -26,7 +27,7 @@ public class ForumController {
 	private UserService userService;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ForumController.class);
 	private boolean checkInvalidUsers = false;
-	private List<User> listValidUsers = new ArrayList<User>();
+	private List<User> usersValid = new ArrayList<User>();
 
 	@RequestMapping("/get/forums")
 	private List<Forum> getForums() {
@@ -35,51 +36,54 @@ public class ForumController {
 	}
 
 	@RequestMapping(value = "/forum/invite/users", method = RequestMethod.POST)
-	private String inviteUsers(@RequestBody String usersNames) {
+	private String inviteUsers(@RequestBody String userNames) {
 		LOGGER.info("Start to check valid user name");
-		listValidUsers = new ArrayList<User>();
-		boolean check = false;
-		String[] arrUsersNames = usersNames.split(",");
-		List<String> namesInvalidUsers = new ArrayList<String>();
-		List<User> listAllUsers = new ArrayList<User>();
-		listAllUsers = userService.findAll();
-		for (int index = 0; index < arrUsersNames.length; index++) {
-			for (int index2 = 0; index2 < listAllUsers.size(); index2++) {
-				if (arrUsersNames[index].trim().equals(listAllUsers.get(index2).name)) {
-					check = true;
-					listValidUsers.add(listAllUsers.get(index2));
+		usersValid = new ArrayList<User>();
+		boolean namesEquals = false;
+		String[] arrUserNames = userNames.split(",");
+		List<String> invalidNames = new ArrayList<String>();
+		List<User> allUsers = new ArrayList<User>();
+		allUsers = userService.findAll();
+		for (String name : arrUserNames) {
+			for (User user : allUsers) {
+				if (name.trim().equals(user.name)) {
+					usersValid.add(user);
+					namesEquals = true;
 					break;
 				}
 			}
-			if (check == false) {
-				namesInvalidUsers.add(arrUsersNames[index]);
+			if (namesEquals == false) {
+				invalidNames.add(name);
 			}
-			check = false;
-
+			namesEquals = false;
 		}
-		if (namesInvalidUsers.size() > 0) {
-			usersNames = String.join(", ", namesInvalidUsers);
-			usersNames = "Invalid user name: " + usersNames;
+		if (invalidNames.size() > 0) {
+			userNames = String.join(", ", invalidNames);
+			userNames = "Invalid user names: " + userNames;
 			checkInvalidUsers = true;
-			return usersNames;
-
+			return userNames;
 		}
-		usersNames = "";
-		return usersNames;
+		userNames = "";
+		return userNames;
 	}
 
 	@RequestMapping(value = "/add/forum", method = RequestMethod.POST)
 	private Forum addForum(@RequestBody Forum forum) {
 		LOGGER.info("Start to add forum to database");
 		if (checkInvalidUsers == false) {
-			User user = new User();
-			for (int index = 0; index < listValidUsers.size(); index++) {
-				user = listValidUsers.get(index);
+			List<Message> messages = new ArrayList<Message>();
+			for (int index = 0; index < usersValid.size(); index++) {
+				User user = new User(usersValid.get(index).name);
+				for (Message message : usersValid.get(index).getMessages()) {
+					user.addMessage(new Message(message.getMessage()));
+				}
 				forum.addUser(user);
-				userService.delete(listValidUsers.get(index));
+				userService.delete(usersValid.get(index));
+				if (index == usersValid.size() - 1) {
+					forumService.save(forum);
+					return forum;
+				}
 			}
-			forumService.save(forum);
-			return forum;
 		}
 		checkInvalidUsers = false;
 		return forum;

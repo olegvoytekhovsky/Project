@@ -9,12 +9,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
 import java.util.List;
+import java.util.ArrayList;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import by.intexsoft.oleg.model.Message;
 
 /**
- * Class is entity and specifies the table name where data of this entity is to
- * be persisted
+ * Class is entity and specifies the table name where data of this entity is to be persisted
  */
 @Entity
 @Table(name = "users")
@@ -30,16 +30,29 @@ public class User extends AbstractPersistable<Integer> {
 	private List<Message> messages;
 
 	/**
-	 * @return list of all user's {@Message}s
-	 */
+	*@return list of all user's {@Message}s
+	*/
 	public List<Message> getMessages() {
 		return messages;
 	};
 
 	/**
-	 * Add {@link Message} instance to list {@link Message}s
-	 */
+	* Add {@link Message} instance to a list {@link Message}s
+	*/
 	public void addMessage(Message message) {
+		if(messages == null)
+			messages = new ArrayList<Message>();
 		this.messages.add(message);
+	}
+	
+	private User() {
+
+	}
+
+	/**
+	*Constructor provides to assign a parameter to a field
+	*/
+	public User(String name) {
+		this.name = name;
 	}
 }

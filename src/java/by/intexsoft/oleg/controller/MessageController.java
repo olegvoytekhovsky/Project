@@ -14,12 +14,13 @@ import by.intexsoft.oleg.model.Message;
 import by.intexsoft.oleg.service.UserService;
 
 /**
- * Class where methods returns domain objects
+ * class where methods returns domain objects
  */
 @RestController
 public class MessageController {
 	@Autowired
 	private UserService userService;
+	@Autowired
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
 	@RequestMapping("/get/user/message/{id}")

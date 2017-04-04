@@ -17,9 +17,11 @@ export class NewForumComponent {
 
     onCreate() {
         this.forumService.inviteUsers(this.usersNames)
-            .subscribe(usersNames => this.invalidUsersMessage = usersNames, error => this.invalidUsersMessage = error + '');
-        this.forumService.createForum(this.title, this.description)
-            .subscribe(forum => this.statusForumCreation = '', error => this.statusForumCreation = error + '');
+            .subscribe(usersNames => {
+                this.forumService.createForum(this.title, this.description)
+                       .subscribe(forum => this.statusForumCreation = '', error => this.statusForumCreation = error + '');
+                       this.invalidUsersMessage = usersNames
+            }, error => this.invalidUsersMessage = error + '');
     }
 
     onTitle(title: string) {

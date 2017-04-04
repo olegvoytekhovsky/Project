@@ -40,10 +40,10 @@ public class Forum extends AbstractPersistable<Integer> {
 	private List<User> users;
 
 	/**
-	 * Add {@link User} instance to list {@link User}s
+	 * Add {@link User} instance to a list {@link User}s
 	 */
 	public void addUser(User user) {
-		if (users == null)
+		if(users == null)		
 			users = new ArrayList<User>();
 		this.users.add(user);
 	}
