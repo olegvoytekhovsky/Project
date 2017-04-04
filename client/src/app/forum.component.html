@@ -1,10 +1,15 @@
 <div class="container" style="width:40%; height:80%; float:left">
     <div>
       <h1>{{ forum.title }}</h1>
-      {{checkGetForum}}
+      <ul style="list-style-type:none">
+        <li *ngFor="let message of messages">{{message.message}}</li>
+      </ul>
+      <p>{{checkGetForum}}</p>
+      <p>{{checkGetMessages}}</p>
     </div>
     <div>
-        <textarea #box class="form-control" style="margin-top: 500px;"></textarea>
-        <a class="btn btn-primary">Send</a>
+      <textarea #box class="form-control" style="margin-top: 500px;"></textarea>
+      <a class="btn btn-primary"  (click)="onSend(box.value)">Send</a>
+      {{checkSendMessage}}
     </div>
 </div>

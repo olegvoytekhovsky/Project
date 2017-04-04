@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
+import by.intexsoft.oleg.model.Forum;
 import by.intexsoft.oleg.model.User;
 import by.intexsoft.oleg.model.Message;
+import by.intexsoft.oleg.service.ForumService;
 import by.intexsoft.oleg.service.UserService;
 
 /**
@@ -19,10 +21,19 @@ import by.intexsoft.oleg.service.UserService;
 @RestController
 public class MessageController {
 	@Autowired
+	private ForumService forumService;	
+	@Autowired
 	private UserService userService;
 	@Autowired
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
+	@RequestMapping("/get/forum/message/{id}")
+	private List<Message> getForumMessages(@PathVariable int id) {
+		LOGGER.info("Start to load forum's messages");
+		List<Message> messages = forumService.findById(id).getMessages();
+		return messages;
+	}	
+	
 	@RequestMapping("/get/user/message/{id}")
 	private List<Message> getUserMessages(@PathVariable int id) {
 		LOGGER.info("Start to load user's messages");
@@ -30,8 +41,17 @@ public class MessageController {
 		return messages;
 	}
 
+	@RequestMapping(value = "/save/forum/message/{id}", method = RequestMethod.POST)
+	private Message saveForumMessage(@PathVariable int id, @RequestBody Message message) {
+		LOGGER.info("Start to save forum's message");
+		Forum forum = forumService.findById(id);
+		forum.addMessage(message);
+		forumService.save(forum);
+		return message; 
+	}
+
 	@RequestMapping(value = "/save/user/message/{id}", method = RequestMethod.POST)
-	private Message saveUsersMessage(@PathVariable int id, @RequestBody Message message) {
+	private Message saveUserMessage(@PathVariable int id, @RequestBody Message message) {
 		LOGGER.info("Start to save user's message");
 		User user = userService.findById(id);
 		user.addMessage(message);
