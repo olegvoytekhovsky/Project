@@ -33,7 +33,7 @@ module.exports = {
     },
 
     devServer: {
-        proxy: {'/api/*': 'http://localhost:8080/project'}
+        proxy: {'/**': 'http://localhost:8080'}
     },
 
     plugins: [
