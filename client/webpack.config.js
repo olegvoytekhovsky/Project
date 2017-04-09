@@ -33,7 +33,7 @@ module.exports = {
     },
 
     devServer: {
-        proxy: {'/api/*': 'http://localhost:8080/Gradle2'}
+        proxy: {'/api/*': 'http://localhost:8080/project'}
     },
 
     plugins: [
