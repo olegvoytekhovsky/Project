@@ -1,26 +1,28 @@
 <div class="container" style="width: 40%">
-    <h1><u>Register</u></h1>
+  <div><h2 style="float:left"><a routerLink="/login">Log in</a></h2></div>
+  <div><h2>|<u>Create account</u></h2></div>
     <form>
-        <div>
-            <label>Username</label>
-            <input type="text" class="form-control">
+      <div>
+        <label>Firstname</label>
+          <input #firstname  type="text" class="form-control" (keyup)="onFirstname(firstname.value)" required>
+  
+          <label>Lastname</label>
+          <input #lastname  type="text" class="form-control" (keyup)="onLastname(lastname.value)" required>
+          
+          <label>Username</label>
+           <input #username  type="text" class="form-control" (keyup)="onUsername(username.value)" required>
+        
+           <label>Password</label>
+           <input #password type="password" class="form-control" (keyup)="onPassword(password.value)" required>
+           <label>Confirm Password</label>
+           <input #confirmPassword type="password" class="form-control" (keyup)="onConfirmPassword(confirmPassword.value)" required>
+           <button class="btn btn-success" (click)="onRegister()">Create account</button>
         </div>
 
-        <div>
-            <label>Email</label>
-            <input type="email" class="form-control">
+          <div *ngIf="success" class="alert alert-success">{{success}}</div>
+         
+          <div *ngIf="error" class="alert alert-danger">{{error}}</div>
 
-            <div>
-                <label>Password</label>
-                <input type="password" class="form-control">
-            </div>
-
-            <div>
-                <label>Repeat Password</label>
-                <input type="password" class="form-control">
-            </div>
-
-            <button class="btn btn-success" (click)="goForum()">Register</button>
-
-        </div>
-    </form>
+          <div *ngIf="errorPassword" class="alert alert-danger">{{errorPassword}}</div>
+        </form>
+</div>

@@ -20,8 +20,8 @@ const appRoutes: Routes = [
         children: [
             {path: '', component: ForumComponent},
             {path: 'forum/:id', component: ForumComponent},
-            {path: 'contact/:id', component: ContactComponent},
-            {path: 'contact-details/:id', component: ContactDetailsComponent},
+            {path: 'contact/:username', component: ContactComponent},
+            {path: 'contact-details/:username', component: ContactDetailsComponent},
             {path: 'search/:value', component: SearchComponent},
             {path: 'new-forum', component: NewForumComponent},
         ]

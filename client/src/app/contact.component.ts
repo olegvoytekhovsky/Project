@@ -11,9 +11,9 @@ import {MessageService} from "./message.service";
 })
 
 export class ContactComponent implements OnInit {
-    user = new User(1, '');
+    user = new User('1', '');
     messages: Message[];
-    id: number;
+    username: string;
     checkSendMessage: string;
     checkGetMessages: string;
     checkGetUsers: string;
@@ -28,13 +28,13 @@ export class ContactComponent implements OnInit {
     ngOnInit() {
         this.route.params
             .switchMap((params: Params) => {
-                this.id = params['id'];
-                this.getUserMessages(this.userMessagesUrlGet, this.id.toString());
-                return this.userService.getUsers()
+                this.username = params['username'];
+                this.getUserMessages(this.userMessagesUrlGet, this.username.toString());
+                return this.userService.getUsers();
             })
             .subscribe(users => {
                     for (let index = 0; index < users.length; index++) {
-                        if (users[index].id == this.id) {
+                        if (users[index].username == this.username) {
                             this.user = users[index];
                             break;
                         }
@@ -43,13 +43,13 @@ export class ContactComponent implements OnInit {
             );
     }
 
-    getUserMessages(url: string, id: string) {
-        this.messageService.getMessages(url, id)
+    getUserMessages(url: string, username: string) {
+        this.messageService.getMessages(url, username)
             .subscribe(messages => this.messages = messages, error => this.checkGetMessages = 'error get user message ' + error);
     }
 
     onSend(message: String) {
-        this.messageService.create(message, this.usersMessageUrlCreate, this.id.toString()).subscribe(message => {
+        this.messageService.create(message, this.usersMessageUrlCreate, this.username.toString()).subscribe(message => {
             this.checkSendMessage = '';
             this.messages.push(message);
         }, error => this.checkSendMessage = 'error send message ' + error);

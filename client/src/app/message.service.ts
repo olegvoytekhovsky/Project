@@ -7,19 +7,23 @@ import {Message} from "./message";
 
 @Injectable()
 export class MessageService {
-
     constructor(private http: Http) {
     }
 
     create(message: String, url: string, id: string): Observable<Message> {
-        var headers = new Headers({'Content-Type': 'application/json'});
+        var headers = new Headers({'Authorization': localStorage.getItem('currentUser')});
         var options = new RequestOptions({headers: headers});
         return this.http.post(url + id, {message}, options).map(this.extractData);
     }
 
     getMessages(url: string, id: string): Observable<Message[]> {
-        return this.http.get(url + id).map(this.extractData)
-            .catch(error => error);
+        let headers = new Headers({'Authorization': localStorage.getItem('currentUser')});
+        let options = new RequestOptions({headers: headers});
+        return this.http.get(url + id, options).map(this.extractData)
+        .catch(error =>{
+            console.log(error);
+            return error;
+        });
     }
 
     private extractData(res: Response) {

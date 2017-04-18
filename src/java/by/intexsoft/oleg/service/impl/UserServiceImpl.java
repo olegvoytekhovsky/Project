@@ -27,12 +27,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 * Implementation of method {@link UserService#findById()}
+	 * Implementation of method {@link UserService#findByUsername()}
 	 * 
 	 * @return {@link User} instance
 	 */
-	public User findById(int id) {
-		return userRepository.findById(id);
+	public User findByUsername(String username) {
+		return userRepository.findByUsername(username);
 	}
 
 	/**

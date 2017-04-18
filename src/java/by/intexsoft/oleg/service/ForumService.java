@@ -20,6 +20,13 @@ public interface ForumService {
 	Forum findById(int id);
 
 	/**
+	 * Find {@link Forum} instance by title
+	 * 
+	 * @return {@link Forum}
+	 */
+	Forum findByTitle(String title);
+	
+	/**
 	 * Find all {@link Forum} instances
 	 * 
 	 * @return List<{@link Forum}>

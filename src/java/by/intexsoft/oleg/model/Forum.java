@@ -37,8 +37,8 @@ public class Forum extends AbstractPersistable<Integer> {
 	@Column
 	public String description;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "forums_users", joinColumns = @JoinColumn(name = "forum_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "forums_users", joinColumns = @JoinColumn(name = "forum_id"), inverseJoinColumns = @JoinColumn(name = "username"))
 	private Set<User> users;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -55,8 +55,8 @@ public class Forum extends AbstractPersistable<Integer> {
 	}
 
 	/**
-	* Add {@link Message} instance to list of {@link Message}s
-	*/
+	 * Add {@link Message} instance to list of {@link Message}s
+	 */
 	public void addMessage(Message message) {
 		if(messages == null)
 			messages = new ArrayList<Message>();
@@ -64,8 +64,9 @@ public class Forum extends AbstractPersistable<Integer> {
 	}
 
 	/**
-	*@return list of all forum's {@Message}s
-	*/
+     * Getter method
+	 * @return list of all forum's {@Message}s
+	 */
 	public List<Message> getMessages() {
 		return messages;
 	};

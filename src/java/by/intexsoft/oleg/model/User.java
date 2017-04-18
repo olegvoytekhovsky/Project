@@ -1,5 +1,6 @@
 package by.intexsoft.oleg.model;
 
+import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -8,8 +9,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import by.intexsoft.oleg.model.Message;
 
@@ -18,19 +22,71 @@ import by.intexsoft.oleg.model.Message;
  */
 @Entity
 @Table(name = "users")
-public class User extends AbstractPersistable<Integer> {
+public class User{
+	/**
+	 * Specify the details of the column to which a field will be mapped
+	 */
+	@Id
+	public String username;
+	
 	/**
 	 * Specify the details of the column to which a field will be mapped
 	 */
 	@Column
-	public String name;
-
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "users_messages", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "message_id"))
-	private List<Message> messages;
+	public String password;
 
 	/**
-	*@return list of all user's {@Message}s
+	 * {@link User}'s {@link Forum}s
+	 */
+	@ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+	public Set<Forum> forums = new HashSet<Forum>();
+	
+	/**
+	 * {@link User}'s friends
+	 */
+    @JsonIgnore
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "users_friends", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "username_friend"))
+	public Set<User> friends = new HashSet<User>();
+
+    /**
+     * Mapped by {@link #friends} as bidirectional relationship
+     */
+    @JsonIgnore   
+	@ManyToMany(mappedBy = "friends", fetch = FetchType.EAGER)
+	public Set<User> teammates = new HashSet<User>();
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "users_messages", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "message_id"))
+	private List<Message> messages;
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles;
+	
+	
+	private User() {
+
+	}
+
+	/**
+	*Constructor provides to assign a parameter to a field
+	*/
+	public User(String username) {
+		this.username = username;
+	}
+	
+	/**
+	*Constructor provides to assign parameters to fields
+	*/
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+	
+	/**
+     * Getter method
+	*@return list all user's {@link Message}s
 	*/
 	public List<Message> getMessages() {
 		return messages;
@@ -44,15 +100,14 @@ public class User extends AbstractPersistable<Integer> {
 			messages = new ArrayList<Message>();
 		this.messages.add(message);
 	}
-	
-	private User() {
 
-	}
-
-	/**
-	*Constructor provides to assign a parameter to a field
-	*/
-	public User(String name) {
-		this.name = name;
+    /**
+     * Getter method
+     * @return set user's {@link Role}s
+     */    
+	public Set<Role> getRoles() {
+		if(roles == null)
+			roles = new HashSet<>();
+		return roles;
 	}
 }

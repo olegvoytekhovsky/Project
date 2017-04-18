@@ -31,6 +31,15 @@ public class ForumServiceImpl implements ForumService {
 	public Forum findById(int id) {
 		return forumRepository.findById(id);
 	}
+	
+	/**
+	 * Implementation of method {@link ForumService#findByTitle()}
+	 * 
+	 * @return {@link Forum} instance
+	 */
+	public Forum findByTitle(String title) {
+		return forumRepository.findByTitle(title);
+	}
 
 	/**
 	 * Implementation of method {@link ForumService#findAll()}

@@ -1,18 +1,20 @@
 <div class="container" style="width:40%">
     <div>
-        <h1 style="float:left"><u>Login</u>|</h1></div>
-    <div><h1><a routerLink="/register">Register</a></h1></div>
+        <h2 style="float:left"><u>Log in</u>|</h2></div>
+    <div><h2><a routerLink="/register">Create account</a></h2></div>
     <form>
         <div>
             <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" required>
+            <input #usernameBox type="text" class="form-control" id="username" (keyup)="onUsername(usernameBox.value)" required>
         </div>
 
         <div>
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" required>
+            <input #passwordBox type="password" class="form-control" (keyup)="onPassword(passwordBox.value)" required>
         </div>
 
-        <button type="submit" class="btn btn-success" (click)="goForum()">Login</button>
-    </form>
+        <button type="submit" class="btn btn-success" (click)="onLogin()">Login</button>
+        
+        {{authenticationMessage}}
+      </form>
 </div>

@@ -34,10 +34,10 @@ public class MessageController {
 		return messages;
 	}	
 	
-	@RequestMapping("/get/user/message/{id}")
-	private List<Message> getUserMessages(@PathVariable int id) {
+	@RequestMapping("/get/user/message/{username}")
+	private List<Message> getUserMessages(@PathVariable String username) {
 		LOGGER.info("Start to load user's messages");
-		List<Message> messages = userService.findById(id).getMessages();
+		List<Message> messages = userService.findByUsername(username).getMessages();
 		return messages;
 	}
 
@@ -50,10 +50,10 @@ public class MessageController {
 		return message; 
 	}
 
-	@RequestMapping(value = "/save/user/message/{id}", method = RequestMethod.POST)
-	private Message saveUserMessage(@PathVariable int id, @RequestBody Message message) {
+	@RequestMapping(value = "/save/user/message/{username}", method = RequestMethod.POST)
+	private Message saveUserMessage(@PathVariable String username, @RequestBody Message message) {
 		LOGGER.info("Start to save user's message");
-		User user = userService.findById(id);
+		User user = userService.findByUsername(username);
 		user.addMessage(message);
 		userService.save(user);
 		return message;

@@ -6,23 +6,24 @@ import org.springframework.data.jpa.repository.Query;
 import by.intexsoft.oleg.model.User;
 
 /**
- * UserRepository is repository and declare method find all, find by id, save
+ * UserRepository is repository and declare method find all, find by name, save
  * and delete {@link User} entities
  */
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, String> {
 	/**
 	 * Returns all instances of the type {@link User}
 	 * 
 	 * @return List {@link User}s
 	 */
 	List<User> findAll();
-
+	
 	/**
-	 * Returns instance of the type {@link User} by id
+	 * Returns instance of the type {@link User} by username
 	 * 
 	 * @return {@link User}
 	 */
-	User findById(int id);
+	@Query("select u from User u where u.username = ?1")
+	User findByUsername(String username);
 
 	/**
 	 * Save entity of the type {@User}

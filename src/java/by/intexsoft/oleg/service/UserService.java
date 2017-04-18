@@ -16,11 +16,11 @@ public interface UserService {
 	List<User> findAll();
 
 	/**
-	 * Find {@link User} by id
+	 * Find {@link User} by username
 	 * 
 	 * @return {@link User}
 	 */
-	User findById(int id);
+	User findByUsername(String username);
 
 	/**
 	 * Save {@link User}
