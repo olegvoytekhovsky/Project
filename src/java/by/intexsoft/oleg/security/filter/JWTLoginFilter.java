@@ -13,7 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import by.intexsoft.oleg.security.service.TokenAuthenticationService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import java.util.Set;
+import java.util.HashSet;
 import by.intexsoft.oleg.model.User;
+import by.intexsoft.oleg.model.Role;
 import java.io.IOException;
 
 /**
@@ -38,13 +43,13 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
 			throws AuthenticationException, IOException, ServletException {
 		User user = new ObjectMapper().readValue(req.getInputStream(), User.class);
-		return getAuthenticationManager().authenticate(
+        return getAuthenticationManager().authenticate(
 				new UsernamePasswordAuthenticationToken(user.username, user.password, Collections.emptyList()));
 	}
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
-		TokenAuthenticationService.addAuthentication(res, auth.getName());
+		TokenAuthenticationService.addAuthentication(res, auth);
 	}
 }

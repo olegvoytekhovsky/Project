@@ -26,7 +26,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().antMatchers("/index.html").permitAll().antMatchers("/polyfills.js")
 				.permitAll().antMatchers("/vendor.js").permitAll().antMatchers("/app.js").permitAll()
-				.antMatchers("/login").permitAll().antMatchers("/api/create/user").permitAll().anyRequest().authenticated().and()
+				.antMatchers("/login").permitAll().antMatchers("/api/create/user").permitAll().antMatchers("/api/load/forums/public").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/api/load/users").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/api/delete/forum/*").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/api/delete/user/*").hasAnyAuthority("ROLE_ADMIN")
+                .anyRequest().authenticated().and()
 				.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

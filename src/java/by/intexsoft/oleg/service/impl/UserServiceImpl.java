@@ -45,8 +45,8 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * Implementation of method {@link UserService#delete()}
 	 */
-	public void delete(User user) {
-		userRepository.delete(user);
+	public void delete(String username) {
+		userRepository.delete(username);
 	}
 
 }

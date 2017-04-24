@@ -1,7 +1,24 @@
 <div class="container" style="width:40%; float: left">
+  <div align="center">
     <h1><u>Contact Details</u></h1>
-    <form>
-        <button type="button" class="btn btn-primary">Add to contacts</button>
-        <a class="btn btn-primary">Direct message</a>
-    </form>
+      <form>
+        <div>
+          <label>Firstname</label>
+          <h3>{{user.firstname}}</h3>
+        </div>
+
+        <div>
+          <label>Lastname</label>
+          <h3>{{user.lastname}}</h3>
+        </div>
+
+        <div>
+          <label>Username</label>
+          <h3>{{user.username}}</h3>
+        </div>
+
+          <button type="button" class="btn btn-primary">Add to contacts</button>
+          <a class="btn btn-primary" routerLink="/main-page/direct-message/{{user.username}}">Direct message</a>
+      </form>
+  </div>
 </div>

@@ -31,6 +31,12 @@ public class Forum extends AbstractPersistable<Integer> {
 	@Column
 	public String title;
 
+    /**
+     * Specify the details of the column to which a field will be mapped
+     */
+    @Column 
+    public String visibility;
+
 	/**
 	 * Specify the details of the column to which a field will be mapped
 	 */
@@ -44,6 +50,17 @@ public class Forum extends AbstractPersistable<Integer> {
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "forums_messages", joinColumns = @JoinColumn(name = "forum_id"), inverseJoinColumns = @JoinColumn(name = "message_id"))
 	private List<Message> messages;
+
+    /**
+     * Constructor provides to assign parameters to fields
+     */
+    public Forum(String title, String visibility) {
+        this.title = title;
+        this.visibility = visibility;
+    }
+
+    private Forum() {
+    }
 
 	/**
 	 * Add {@link User} instance to a set of {@link User}s

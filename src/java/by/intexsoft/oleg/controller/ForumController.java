@@ -35,58 +35,75 @@ public class ForumController {
 	private boolean checkInvalidUsers = false;
 	private List<User> usersValid = new ArrayList<User>();
 
+    @RequestMapping("/load/forums/public")
+    private List<Forum> loadAllForums() {
+        LOGGER.info("Start to load public forums");
+        return forumService.findAll();
+    }
 	@RequestMapping("/get/forums/{username}")
-	private Set<Forum> getForums(@PathVariable String username) {
+	private List<Forum> getForums(@PathVariable String username) {
 		LOGGER.info("Start to load user's forums");
-		return userService.findByUsername(username).forums;
+		return forumService.findByVisibilityAndUsername("public",username);
 	}
 
-	@RequestMapping(value = "/forum/invite/users", method = RequestMethod.POST)
-	private String inviteUsers(@RequestBody String userNames) {
-		LOGGER.info("Start to check valid user name");
+	@RequestMapping(value = "/forum/invite/users/{username}", method = RequestMethod.POST)
+	private String inviteUsers(@PathVariable String username, @RequestBody String usernames) {
+		LOGGER.info("Start to check valid usernames");
 		usersValid = new ArrayList<User>();
 		boolean namesEquals = false;
-		String[] arrUserNames = userNames.split(",");
+        usernames = username + "," + usernames;
+		String[] arrUsernames = usernames.split(",");
 		List<String> invalidNames = new ArrayList<String>();
 		List<User> allUsers = new ArrayList<User>();
 		allUsers = userService.findAll();
-		for (String name : arrUserNames) {
+		for (String name : arrUsernames) {
 			for (User user : allUsers) {
-				if (name.trim().equals(user.username)) {
-					usersValid.add(user);
+                if (name.trim().equals(user.username)) {
+                    usersValid.add(user);
 					namesEquals = true;
 					break;
 				}
 			}
 			if (namesEquals == false) {
-				invalidNames.add(name);
+                invalidNames.add(name);
 			}
 			namesEquals = false;
 		}
 		if (invalidNames.size() > 0) {
-			userNames = String.join(", ", invalidNames);
-			userNames = "Invalid user names: " + userNames;
-			checkInvalidUsers = true;
-			return userNames;
+			usernames = String.join(", ", invalidNames);
+			usernames = "Invalid usernames: " + usernames;
+			return usernames;
 		}
-		userNames = "";
-		return userNames;
+		usernames = "";
+		return usernames;
 	}
 
 	@RequestMapping(value = "/add/forum", method = RequestMethod.POST)
 	private Forum addForum(@RequestBody Forum forum) {
 		LOGGER.info("Start to add forum to database");
-		if (checkInvalidUsers == false) {
-			List<Message> messages = new ArrayList<Message>();
-			for (int index = 0; index < usersValid.size(); index++) {
+			for (int index = 0; index < usersValid.size(); index++) 
 				forum.addUser(usersValid.get(index));
-				if (index == usersValid.size() - 1) {
-					forumService.save(forum);
-					return forum;
-				}
-			}
-		}
-		checkInvalidUsers = false;
-		return forum;
+            forum.visibility = "public";
+			forumService.save(forum);
+			return forum;
 	}
+
+    @RequestMapping(value = "/find/forum/{username}", method = RequestMethod.POST)
+    private String findForum(@PathVariable String username, @RequestBody String friendUsername) {
+        LOGGER.info("Start to find friendship forum");
+        for(Integer id: forumService.findForumId(username)) {
+            for(Integer friendId: forumService.findForumId(friendUsername)) {
+                if(id.intValue() == friendId.intValue())
+                    return id.toString();
+            }
+        }
+        return "No forum's id";
+    }
+
+    @RequestMapping("/delete/forum/{id}")
+    private int deletePublicForum(@PathVariable int id) {
+        LOGGER.info("Start to delete public forum");
+        forumService.delete(id);
+        return id;
+    }
 }

@@ -1,6 +1,9 @@
 package by.intexsoft.oleg.controller;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
+import java.util.Collections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,24 +13,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import by.intexsoft.oleg.model.Forum;
 import by.intexsoft.oleg.model.User;
+import by.intexsoft.oleg.service.ForumService;
 import by.intexsoft.oleg.service.UserService;
 
 /**
- * class where method returns domain object
+ * class where methods returns domain objects
  */
 @RestController
 public class UserController {
 	@Autowired
 	private UserService userService;
+    @Autowired
+    private ForumService forumService;
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
+    @RequestMapping("/load/users")
+    private List<User> loadUsers() {
+        LOGGER.info("Start to load all users");
+        return userService.findAll();
+    }
+
 	@RequestMapping("/get/friends/{username}")
-	private Set<User> getUsers(@PathVariable String username) {
+	private List<User> getUsers(@PathVariable String username) {
 		LOGGER.info("Start to load friends from database");
         User user = userService.findByUsername(username);
         user.friends.addAll(user.teammates);
-        return user.friends;
+        List<User> list = new ArrayList<User>(user.friends);
+        Collections.sort(list);
+        return list;
     }
 
     @RequestMapping("/load/user/{username}")
@@ -54,4 +69,38 @@ public class UserController {
         return "Saved";
     }
 
+    @RequestMapping("/add/friend/{username}")
+    private User addFriend(@PathVariable String username, @RequestBody String usernameFriend) {
+        LOGGER.info("Start to add to friend");
+        User user = userService.findByUsername(username);
+        User friend = userService.findByUsername(usernameFriend);
+        user.friends.add(friend);
+        userService.save(user);
+        Forum forum = new Forum(username + "_" + usernameFriend, "private");
+        forum.addUser(user);
+        forum.addUser(friend);
+        forumService.save(forum);
+        return friend;
+    }
+
+    @RequestMapping("/is/friend/{username}")
+    private String isFriend(@PathVariable String username, @RequestBody String usernameRequest) {
+        LOGGER.info("Start to check user's friends");
+        User user = userService.findByUsername(username);
+        user.friends.addAll(user.teammates);
+        if(user.username.equals(usernameRequest))
+            return "Found";
+        for(User friend: user.friends) {
+            if(friend.username.equals(usernameRequest))
+                return "Found"; 
+        }
+        return "Not found";
+    }
+
+    @RequestMapping("/delete/user/{username}")
+    private String deleteUser(@PathVariable String username) {
+        LOGGER.info("Start to delete user");
+        userService.delete(username);
+        return username;
+    }
 }

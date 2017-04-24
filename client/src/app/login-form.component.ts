@@ -19,7 +19,7 @@ export class LoginFormComponent {
         .subscribe(result => {
             if(result == true)
                 this.router.navigate(['/main-page']);
-            else this.authenticationMessage = "Invlaid username or password"; 
+            else this.authenticationMessage = "Invalid username or password"; 
         }, error => {
             console.log(error);
                   return error;

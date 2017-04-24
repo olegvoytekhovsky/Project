@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.TreeSet;
+import java.util.Comparator;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import by.intexsoft.oleg.model.Message;
 
@@ -22,7 +24,7 @@ import by.intexsoft.oleg.model.Message;
  */
 @Entity
 @Table(name = "users")
-public class User{
+public class User implements Comparable<User> {
 	/**
 	 * Specify the details of the column to which a field will be mapped
 	 */
@@ -34,6 +36,18 @@ public class User{
 	 */
 	@Column
 	public String password;
+    
+    /**
+     * Specify the details of the column to which a field will be mapped
+     */
+    @Column
+    public String firstname;
+
+    /**
+     * Specify the details of the column to which a field will be mapped
+     */
+    @Column
+    public String lastname;
 
 	/**
 	 * {@link User}'s {@link Forum}s
@@ -56,9 +70,11 @@ public class User{
 	@ManyToMany(mappedBy = "friends", fetch = FetchType.EAGER)
 	public Set<User> teammates = new HashSet<User>();
 	
+    /*
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_messages", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "message_id"))
 	private List<Message> messages;
+*/
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -88,18 +104,19 @@ public class User{
      * Getter method
 	*@return list all user's {@link Message}s
 	*/
-	public List<Message> getMessages() {
+/*	public List<Message> getMessages() {
 		return messages;
 	};
 
 	/**
 	* Add {@link Message} instance to a list of {@link Message}s
 	*/
+    /*
 	public void addMessage(Message message) {
 		if(messages == null)
 			messages = new ArrayList<Message>();
 		this.messages.add(message);
-	}
+	}*/
 
     /**
      * Getter method
@@ -110,4 +127,13 @@ public class User{
 			roles = new HashSet<>();
 		return roles;
 	}
+
+    /**
+     * Overrides for method {@link #Collectons.sort()}
+     * Lexicographic compares {@link #username} with other {@link User} username
+     */
+    @Override
+    public int compareTo(User otherUser) {
+        return username.compareTo(otherUser.username);
+    }
 }

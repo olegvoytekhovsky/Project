@@ -33,7 +33,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 	<S extends User> S save(S user);
 
 	/**
-	 * Delete entity of the type {@link User}
+	 * Delete entity with given ID
 	 */
-	void delete(User user);
+	void delete(String username);
 }

@@ -1,5 +1,7 @@
 package by.intexsoft.oleg.security.service.serviceImpl;
 
+import org.slf4j.Logger; 
+import org.slf4j.LoggerFactory; 
 import java.util.Set;
 import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ import by.intexsoft.oleg.service.UserService;
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private UserService userService;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 	/**
 	 * Locates the user based on the username
 	 * 
@@ -27,11 +29,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) {
-		User user = new User(username);
+		LOGGER.info("Start to load user by username");
+        User user = new User(username);
 		user = userService.findByUsername(username);
-		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		for (Role role : user.getRoles()) {
-			grantedAuthorities.add(new SimpleGrantedAuthority(role.name));
+			System.out.println("BBbbbbbbbbbbbbloadusr=" + role.name);
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.name));
 		}
 		return new org.springframework.security.core.userdetails.User(user.username, user.password, grantedAuthorities);
 	}

@@ -29,7 +29,7 @@ export class RegisterFormComponent {
         this.errorPassword ='';
         if(this.password.length > 0 && this.firstname.length > 0 && this.lastname.length > 0 && this.username.length > 0) {
             if(this.confirmPassword == this.password) {
-                this.userService.createUser(this.username, this.password).subscribe(result => {
+                this.userService.createUser(this.username, this.password, this.firstname, this.lastname).subscribe(result => {
                     this.userStatus = result;
                     if(this.userStatus == 'Busy') {
                         this.error = 'Username already exists';

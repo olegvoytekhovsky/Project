@@ -23,10 +23,15 @@ public class ForumServiceImpl implements ForumService {
 		forumRepository.save(forum);
 	}
 
+    /**
+     * Implementation of method {@link ForumService#delete()}
+     */
+    public void delete(int id) {
+        forumRepository.delete(id);
+    }
+
 	/**
 	 * Implementation of method {@link ForumService#findById()}
-	 * 
-	 * @return {@link Forum} instance
 	 */
 	public Forum findById(int id) {
 		return forumRepository.findById(id);
@@ -34,17 +39,28 @@ public class ForumServiceImpl implements ForumService {
 	
 	/**
 	 * Implementation of method {@link ForumService#findByTitle()}
-	 * 
-	 * @return {@link Forum} instance
 	 */
 	public Forum findByTitle(String title) {
 		return forumRepository.findByTitle(title);
 	}
+    
+    /**
+     * Implementation of method {@link ForumService#findForumId()}
+     *
+     * @return {@link Forum}'s id
+     */
+    public List<Integer> findForumId(String username) {
+        return forumRepository.findForumId(username);
+    }
 
+    /**
+     * Implementation of method {@link ForumService#findByVisibilityAndUsername()}
+     */
+    public List<Forum> findByVisibilityAndUsername(String visibility, String username) {
+        return forumRepository.findByVisibilityAndUsername(visibility, username);
+    }
 	/**
 	 * Implementation of method {@link ForumService#findAll()}
-	 * 
-	 * @return List {@link Forum}s
 	 */
 	public List<Forum> findAll() {
 		return forumRepository.findAll();

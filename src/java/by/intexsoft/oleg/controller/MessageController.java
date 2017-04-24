@@ -33,14 +33,14 @@ public class MessageController {
 		List<Message> messages = forumService.findById(id).getMessages();
 		return messages;
 	}	
-	
+/*	
 	@RequestMapping("/get/user/message/{username}")
 	private List<Message> getUserMessages(@PathVariable String username) {
 		LOGGER.info("Start to load user's messages");
 		List<Message> messages = userService.findByUsername(username).getMessages();
 		return messages;
 	}
-
+*/
 	@RequestMapping(value = "/save/forum/message/{id}", method = RequestMethod.POST)
 	private Message saveForumMessage(@PathVariable int id, @RequestBody Message message) {
 		LOGGER.info("Start to save forum's message");
@@ -49,7 +49,7 @@ public class MessageController {
 		forumService.save(forum);
 		return message; 
 	}
-
+/*
 	@RequestMapping(value = "/save/user/message/{username}", method = RequestMethod.POST)
 	private Message saveUserMessage(@PathVariable String username, @RequestBody Message message) {
 		LOGGER.info("Start to save user's message");
@@ -57,5 +57,5 @@ public class MessageController {
 		user.addMessage(message);
 		userService.save(user);
 		return message;
-	}
+	}*/
 }

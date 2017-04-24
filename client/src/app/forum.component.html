@@ -1,6 +1,7 @@
 <div class="container" style="width:40%; height:80%; float:left">
     <div>
       <h1>{{ forum.title }}</h1>
+      <h1 *ngIf="startMessage">{{startMessage}}</h1>
       <ul style="list-style-type:none">
         <li *ngFor="let message of messages">{{message.message}}</li>
       </ul>

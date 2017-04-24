@@ -28,7 +28,7 @@ public interface UserService {
 	void save(User user);
 
 	/**
-	 * Delete {@link User}
+	 * Delete with given ID
 	 */
-	void delete(User user);
+	void delete(String username);
 }

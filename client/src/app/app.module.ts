@@ -12,6 +12,8 @@ import {ContactComponent} from "./contact.component";
 import {ContactDetailsComponent} from "./contact-details.component";
 import {SearchComponent} from "./search.component";
 import {NewForumComponent} from "./new-forum.component";
+import {AdminPanelComponent} from "./admin-panel.component";
+
 const appRoutes: Routes = [
     {path: 'login', component: LoginFormComponent},
     {path: 'register', component: RegisterFormComponent},
@@ -20,20 +22,21 @@ const appRoutes: Routes = [
         children: [
             {path: '', component: ForumComponent},
             {path: 'forum/:id', component: ForumComponent},
-            {path: 'contact/:username', component: ContactComponent},
+            {path: 'direct-message/:username/:id', component: ContactComponent},
             {path: 'contact-details/:username', component: ContactDetailsComponent},
             {path: 'search/:value', component: SearchComponent},
             {path: 'new-forum', component: NewForumComponent},
         ]
     },
+    {path: 'admin-panel', component: AdminPanelComponent},
     {path: '', redirectTo: '/login', pathMatch: 'full'}
 ];
-
 
 @NgModule({
     imports: [BrowserModule, FormsModule, HttpModule, RouterModule.forRoot(appRoutes)],
     declarations: [AppComponent, LoginFormComponent, RegisterFormComponent, MainPageComponent, ForumComponent, NewForumComponent,
-        ContactComponent, ContactDetailsComponent, SearchComponent, ForumComponent
+        ContactComponent, ContactDetailsComponent, SearchComponent, ForumComponent,
+        AdminPanelComponent
     ],
     bootstrap: [AppComponent]
 })

@@ -2,28 +2,33 @@
     <div class="container" style="width:20%; float:left">
         <h1>Forums</h1>
         <ul>
-            <li *ngFor="let forum of forums"><a routerLink="/main-page/forum/{{forum.id}}">{{forum.title}}</a></li>
+          <li *ngFor="let forum of forums"><a (click)="onPass(forum)" routerLink="/main-page/forum/{{forum.id}}">{{forum.title}}</a></li>
             {{checkGetForums}}
         </ul>
         <a routerLink="/main-page/new-forum">+add forum</a>
 
         <h1>Direct messages</h1>
         <ul>
-            <li *ngFor="let user of users"><a routerLink="/main-page/contact/{{user.username}}">{{ user.username }}</a></li>
+          <li *ngFor="let user of users"><a (click)="onLoadForumId(user.username)">{{user.username}}</a></li>
             {{checkGetUsers}}
         </ul>
 
     </div>
     <router-outlet></router-outlet>
     <div class="container" style="width:20%; float:right">
-        <h1>Contacts</h1>
-        <ul>
-            <li *ngFor="let user of users"><a routerLink="/main-page/contact-details/{{ user.username }}"> {{ user.username }}</a>
-            </li>
-            {{checkGetUsers}}
-        </ul>
-        <input #box type="text" class="form-control" value="Search users" (keyup.enter)="onSearch(box.value)"
-               [value]='box.value'>
+      <div style="float: right">
+        <a (click)="onLogOut()" routerLink="/login">Log out</a>
+      </div>
+      <div style="float: left">
+        <a *ngIf="authority == 'ROLE_ADMIN'" routerLink="/admin-panel">Admin panel</a>
+      </div>
+      <h1>Contacts</h1>
+      <ul>
+        <li *ngFor="let user of users"><a (click)="onContact(user)" routerLink="/main-page/contact-details/{{user.username}}"> {{user.username}}</a>
+        </li>
+        {{checkGetUsers}}
+       </ul>
+       <input #box type="text" class="form-control" value="Search users" (keyup.enter)="onSearch(box.value)">
     </div>
 </div>
 
