@@ -57,7 +57,7 @@ export class SearchComponent {
             this.router.navigate(['main-page']);
             this.buttonDisabled = true;
        }, error => {
-        console.log(error);
+        console.log('Error add to friend' + error);
         return error;
        }); 
     }

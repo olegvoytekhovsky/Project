@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import by.intexsoft.oleg.model.Forum;
 
 /**
- * ForumRepository is repository and declare method find all, find by id and
- * save {@link Forum} entities
+ * ForumRepository is repository and declare methods find all, find by id, find by title and
+ * save, delete {@link Forum} entities
  */
 public interface ForumRepository extends JpaRepository<Forum, Integer> {
 	/**

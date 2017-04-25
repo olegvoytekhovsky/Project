@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
@@ -52,6 +53,7 @@ public class User implements Comparable<User> {
 	/**
 	 * {@link User}'s {@link Forum}s
 	 */
+    @JsonIgnore
 	@ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
 	public Set<Forum> forums = new HashSet<Forum>();
 	
@@ -76,9 +78,12 @@ public class User implements Comparable<User> {
 	private List<Message> messages;
 */
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+    /**
+     * Association mapping to {@link Role}
+     */
+	@ManyToOne
+	@JoinColumn(name = "role_id")
+	public Role role;
 	
 	
 	private User() {
@@ -86,7 +91,7 @@ public class User implements Comparable<User> {
 	}
 
 	/**
-	*Constructor provides to assign a parameter to a field
+	* Constructor provides to assign a parameter to a field
 	*/
 	public User(String username) {
 		this.username = username;
@@ -117,16 +122,6 @@ public class User implements Comparable<User> {
 			messages = new ArrayList<Message>();
 		this.messages.add(message);
 	}*/
-
-    /**
-     * Getter method
-     * @return set user's {@link Role}s
-     */    
-	public Set<Role> getRoles() {
-		if(roles == null)
-			roles = new HashSet<>();
-		return roles;
-	}
 
     /**
      * Overrides for method {@link #Collectons.sort()}

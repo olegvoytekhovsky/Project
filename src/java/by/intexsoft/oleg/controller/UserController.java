@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import by.intexsoft.oleg.model.Forum;
 import by.intexsoft.oleg.model.User;
+import by.intexsoft.oleg.model.Role;
 import by.intexsoft.oleg.service.ForumService;
 import by.intexsoft.oleg.service.UserService;
+import by.intexsoft.oleg.service.RoleService;
 
 /**
  * class where methods returns domain objects
@@ -27,6 +29,8 @@ public class UserController {
 	private UserService userService;
     @Autowired
     private ForumService forumService;
+    @Autowired
+    private RoleService roleService;
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @RequestMapping("/load/users")
@@ -65,6 +69,7 @@ public class UserController {
         LOGGER.info("Start to create user");
         if(userService.findByUsername(user.username) != null)
             return "Busy";
+        user.role = roleService.findByName("ROLE_USER");
         userService.save(user);
         return "Saved";
     }
@@ -100,6 +105,9 @@ public class UserController {
     @RequestMapping("/delete/user/{username}")
     private String deleteUser(@PathVariable String username) {
         LOGGER.info("Start to delete user");
+        for(Forum forum: forumService.findByVisibilityAndUsername("private", username)) {
+            forumService.delete(forum.getId());
+        }
         userService.delete(username);
         return username;
     }

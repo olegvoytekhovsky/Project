@@ -8,7 +8,7 @@ import by.intexsoft.oleg.repository.ForumRepository;
 import by.intexsoft.oleg.service.ForumService;
 
 /**
- * Class implements interface {@link ForumService} and class is a Service with
+ * Class implements interface {@link ForumService} and class is a service with
  * name ("forumService")
  */
 @Service("forumService")

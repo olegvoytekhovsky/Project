@@ -33,10 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = new User(username);
 		user = userService.findByUsername(username);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-		for (Role role : user.getRoles()) {
-			System.out.println("BBbbbbbbbbbbbbloadusr=" + role.name);
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.name));
-		}
+		grantedAuthorities.add(new SimpleGrantedAuthority(user.role.name));
 		return new org.springframework.security.core.userdetails.User(user.username, user.password, grantedAuthorities);
 	}
 }

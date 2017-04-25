@@ -43,7 +43,7 @@ public class ForumController {
 	@RequestMapping("/get/forums/{username}")
 	private List<Forum> getForums(@PathVariable String username) {
 		LOGGER.info("Start to load user's forums");
-		return forumService.findByVisibilityAndUsername("public",username);
+		return forumService.findByVisibilityAndUsername("public", username);
 	}
 
 	@RequestMapping(value = "/forum/invite/users/{username}", method = RequestMethod.POST)

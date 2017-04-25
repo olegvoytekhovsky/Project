@@ -1,14 +1,29 @@
+<style>
+  #sendMessage {
+    position: fixed;
+    top: 500px;
+  }
+  .box {
+    width: 370px;
+  }
+  .outer {
+    width: 40%;
+    overflow: auto;
+  }
+</style>
 <div class="container" style="width:40%; height:80%; float:left">
   <div>
     <h1>{{username}}</h1>
     {{checkGetUsers}}
-  <ul style="list-style-type:none">
-    <li *ngFor="let message of messages">{{message.message}}</li> 
-  </ul>
-</div>
-<div>
-    <textarea #box class="form-control" style="margin-top: 400px;"></textarea>
-    <a class="btn btn-primary" (click)="onSend(box.value)">Send</a>
+    <div class="outer">
+      <ul style="list-style-type:none">
+        <li *ngFor="let message of messages"><a routerLink="/main-page/contact-details/{{message.user.username}}"><small>{{message.user.username}}</small></a><br>{{message.message}}</li> 
+      </ul>
+    </div>
+  </div>
+  <div class="box" id="sendMessage">
+    <textarea #textArea class="form-control"></textarea>
+    <a class="btn btn-primary" (click)="onSend(textArea.value)">Send</a>
   </div>
   {{checkSendMessage}}
   {{checkGetMessages}}

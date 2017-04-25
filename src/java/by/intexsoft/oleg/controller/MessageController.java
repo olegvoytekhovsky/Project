@@ -41,10 +41,12 @@ public class MessageController {
 		return messages;
 	}
 */
-	@RequestMapping(value = "/save/forum/message/{id}", method = RequestMethod.POST)
-	private Message saveForumMessage(@PathVariable int id, @RequestBody Message message) {
+	@RequestMapping(value = "/save/forum/message/{id}/{username}", method = RequestMethod.POST)
+	private Message saveForumMessage(@PathVariable int id, @PathVariable String username, @RequestBody String mes) {
 		LOGGER.info("Start to save forum's message");
 		Forum forum = forumService.findById(id);
+        Message message = new Message(mes);
+        message.user = userService.findByUsername(username);
 		forum.addMessage(message);
 		forumService.save(forum);
 		return message; 

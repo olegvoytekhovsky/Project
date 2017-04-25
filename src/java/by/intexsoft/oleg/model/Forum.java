@@ -11,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
@@ -43,6 +44,7 @@ public class Forum extends AbstractPersistable<Integer> {
 	@Column
 	public String description;
 
+    @JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "forums_users", joinColumns = @JoinColumn(name = "forum_id"), inverseJoinColumns = @JoinColumn(name = "username"))
 	private Set<User> users;

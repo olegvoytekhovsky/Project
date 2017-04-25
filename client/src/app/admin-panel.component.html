@@ -1,13 +1,13 @@
 <div>
   <div style="float:left">
     <ul style="list-style-type:none">
-      <li *ngFor="let user of users">{{user.username}}<span *ngIf="user.username != username || user.username != noButtonUser" style="color:red" (click)="onDeleteUser(user.username)">&#10007;</span></li>
+      <li *ngFor="let user of users">{{user.username}}<span *ngIf="user.username != username  && user.username != noUser" style="color:red" (click)="onDeleteUser(user.username)">&#10007;</span></li>
     </ul>
     <a class="btn btn-default" routerLink="/main-page">Back</a>
   </div>
   <div style="float:right">
     <ul style="list-style-type:none">
-      <li *ngFor="let forum of forums">{{forum.title}}<span *ngIf="forum.id != noButtonForum" style="color:red" (click)="onDeleteForum(forum.id)">&#10007;</span></li>
+      <li *ngFor="let forum of forums">{{forum.title}}<span *ngIf="forum.id != noForum" style="color:red" (click)="onDeleteForum(forum.id)">&#10007;</span></li>
       </ul>
   </div>
 </div>

@@ -86,7 +86,7 @@ export class ContactComponent {
         });
     }
 */
-    onSend(message: String) {
+    onSend(message: string) {
         this.messageService.create(message, this.messageCreateUrl, this.forumId).subscribe(message => {
             this.checkSendMessage = '';
         }, error => this.checkSendMessage = 'error send message ' + error);

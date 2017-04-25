@@ -17,35 +17,47 @@ export class AdminPanelComponent {
     private forumInterval: number;
     private jwtHelper: JwtHelper = new JwtHelper();
     private username = this.jwtHelper.decodeToken(localStorage.getItem('currentUser')).sub;
-    private noButtonUser: string;
-    private noButtonForum: number;
+    private noUser = "";
+    private noForum: number;
 
     constructor(private userService: UserService, private forumService: ForumService) {}
 
     ngOnInit() {
-        this.userInterval = setInterval(() => {
-            this.userService.loadUsers().subscribe(users => this.users = users, error => {
-                console.log("Error subscribe users " + error);
-                return error;
-            });
-        }, 5000);
-        this.forumInterval = setInterval(() => {
-            this.forumService.loadAllForums().subscribe(forums => this.forums = forums, error => {
-                console.log('Error load all forums');
-                return error;
-            });
-        }, 5000);
+        this.userService.loadUsers().subscribe(users => {
+            this.users = users;
+            this.userInterval = setInterval(() => {
+                this.userService.loadUsers().subscribe(users => this.users = users, error => {
+                    console.log("Error load/subscribe users " + error);
+                    return error;
+                });
+            }, 5000);
+        }, error => {
+            console.log('Error load/subscribe users ' + error)
+            return error;
+        });
+        this.forumService.loadAllForums().subscribe(forums => {
+            this.forums = forums;
+            this.forumInterval = setInterval(() => {
+                this.forumService.loadAllForums().subscribe(forums => this.forums = forums, error => {
+                    console.log('Error load/subscribe all forums');
+                    return error;
+                });
+            }, 5000);
+        }, error => {
+            console.log('Error load/subscribe all forums');
+            return error
+        });
     }
 
     onDeleteUser(username: string) {
-        this.userService.deleteUser(username).subscribe(username => this.noButtonUser = username, error => {
+        this.userService.deleteUser(username).subscribe(username => this.noUser = username, error => {
             console.log('Error delete forum' + error);
             return error;
         });   
     }
 
     onDeleteForum(id: number) {
-        this.forumService.deleteForum(id).subscribe(id => this.noButtonForum = id, error => {
+        this.forumService.deleteForum(id).subscribe(id => this.noForum = id, error => {
             console.log('Error delete forum' + error);
             return error;
         });

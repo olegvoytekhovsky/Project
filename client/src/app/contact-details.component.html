@@ -17,8 +17,8 @@
           <h3>{{user.username}}</h3>
         </div>
 
-          <button type="button" class="btn btn-primary">Add to contacts</button>
-          <a class="btn btn-primary" routerLink="/main-page/direct-message/{{user.username}}">Direct message</a>
+          <button type="button" class="btn btn-primary" *ngIf="friend == 'Not found'" (click)="onAdd()">Add to contacts</button>
+          <a class="btn btn-primary" (click)="onDirectMessage(user.username)" *ngIf="user.username != currentUsername">Direct message</a>
       </form>
   </div>
 </div>
