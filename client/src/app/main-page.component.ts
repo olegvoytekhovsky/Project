@@ -1,5 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {Router, ActivatedRoute, Params} from "@angular/router";
+import {Subscription} from "rxjs/Subscription";
 import {JwtHelper} from "angular2-jwt";
 import {UserService} from "./user.service";
 import {ForumService} from "./forum.service";
@@ -16,8 +17,11 @@ export class MainPageComponent implements OnInit {
     users: User[] = [];
     forums: Forum[];
     forumId: string;
+    private usernameSearch: string ='';
     private forumInterval: number;
     private userInterval: number;
+    private userSubscription: Subscription;
+    private forumSubscription: Subscription;
     checkGetForums: string;
     checkGetUsers: string;
     private jwtHelper: JwtHelper = new JwtHelper();
@@ -28,13 +32,12 @@ export class MainPageComponent implements OnInit {
     }
 
     ngOnInit() {
-        alert(this.jwtHelper.decodeToken(localStorage.getItem('currentUser')).scopes);
             this.forumService.getForums().subscribe(forums => {
                 this.forums = forums;
-                this.forumInterval = setInterval(() => this.forumService.getForums().subscribe(forums => this.forums = forums, error => {
+                this.forumInterval = setInterval(() => this.forumSubscription = this.forumService.getForums().subscribe(forums => this.forums = forums, error => {
                     console.log('Error get forums form interval ' + error);
                     return error;
-                }), 3500); 
+                }), 5000); 
             }, error => {
                 console.log('Error get forums ' + error);
                 return error;
@@ -42,10 +45,10 @@ export class MainPageComponent implements OnInit {
 
             this.userService.getUsers().subscribe(users => {
                 this.users = users;
-                this.userInterval = setInterval(() => this.userService.getUsers().subscribe(users => this.users = users, error => {
+                this.userInterval = setInterval(() => this.userSubscription = this.userService.getUsers().subscribe(users => this.users = users, error => {
                     console.log('Error get users from interval ' + error);
                     return error;
-                }), 3500); 
+                }), 5000); 
             }, error => {
                 console.log('Error get users ' + error);
                 return error;
@@ -64,7 +67,11 @@ export class MainPageComponent implements OnInit {
 
     ngOnDestroy() {
         clearInterval(this.forumInterval);
+        if(this.forumSubscription)
+            this.forumSubscription.unsubscribe();
         clearInterval(this.userInterval);
+        if(this.userSubscription)
+            this.userSubscription.unsubscribe();
     }
 
     getUsers() {
@@ -85,8 +92,9 @@ export class MainPageComponent implements OnInit {
         this.forumService.componentForum(forum);
     }
 
-    onSearch(value: String) {
-        this.router.navigate(['/main-page/search', value]);
+    onSearch() {
+        this.router.navigate(['/main-page/search', this.usernameSearch]);
+        this.usernameSearch = '';
     }
 
     onLoadForumId(username: string) {

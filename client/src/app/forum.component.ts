@@ -23,7 +23,8 @@ export class ForumComponent implements OnInit {
     private checkGetForum: string;
     private messageCreateUrl = 'api/save/forum/message/'; 
     private messagesGetUrl = 'api/get/forum/message/';
-    
+    private text: string = '';
+
     constructor(private route: ActivatedRoute,
                 private forumService: ForumService,
                 private messageService: MessageService ) {
@@ -61,7 +62,7 @@ export class ForumComponent implements OnInit {
                         }, error => {
                             console.log('Error get inner messages ' + error);
                             return error;
-                        }), 2000);
+                        }), 3000);
                     }, error => {
                             console.log('Error get forum messages ' + error);
                             return error;
@@ -78,6 +79,8 @@ export class ForumComponent implements OnInit {
 
     ngOnDestroy() {
         clearInterval(this.interval);
+        if(this.subscription)
+            this.subscription.unsubscribe();
     }
 
     private getForums() {
@@ -116,9 +119,10 @@ export class ForumComponent implements OnInit {
                 .subscribe(messages => this.messages = messages, error => this.checkGetMessages = 'error get forum message ' + error);
         }
 
-    private onSend(message: string) {
-        this.messageService.create(message, this.messageCreateUrl, this.id)
+    private onSend() {
+        this.messageService.create(this.text, this.messageCreateUrl, this.id)
             .subscribe(message => {
+                this.text = '';
                 this.checkSendMessage = '';
             }, error => this.checkSendMessage = 'error send message ' + error);
     }

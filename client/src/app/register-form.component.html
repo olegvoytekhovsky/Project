@@ -4,18 +4,18 @@
     <form>
       <div>
         <label>Firstname</label>
-          <input #firstname  type="text" class="form-control" (keyup)="onFirstname(firstname.value)" required>
+          <input type="text" class="form-control" [(ngModel)]="firstname" name="fName" required>
   
           <label>Lastname</label>
-          <input #lastname  type="text" class="form-control" (keyup)="onLastname(lastname.value)" required>
+          <input type="text" class="form-control" [(ngModel)]="lastname" name="lName" required>
           
           <label>Username</label>
-           <input #username  type="text" class="form-control" (keyup)="onUsername(username.value)" required>
+           <input type="text" class="form-control" [(ngModel)]="username" name="uName" required>
         
            <label>Password</label>
-           <input #password type="password" class="form-control" (keyup)="onPassword(password.value)" required>
+           <input type="password" class="form-control" [(ngModel)]="password" name="pass" required>
            <label>Confirm Password</label>
-           <input #confirmPassword type="password" class="form-control" (keyup)="onConfirmPassword(confirmPassword.value)" required>
+           <input type="password" class="form-control" [(ngModel)]="confirmPassword" name="cPass" required>
            <button class="btn btn-success" (click)="onRegister()">Create account</button>
         </div>
 

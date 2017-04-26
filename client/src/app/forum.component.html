@@ -7,7 +7,7 @@
     width: 370px;
   }
   .outer {
-    width: 40%;
+    width: 100%;
     overflow: auto;
   }
 </style>
@@ -24,8 +24,8 @@
       <p>{{checkGetMessages}}</p>
     </div>
     <div class="box" id="sendMessage">
-      <textarea #textArea class="form-control"></textarea>
-      <a class="btn btn-primary"  (click)="onSend(textArea.value)">Send</a>
+      <textarea #textArea class="form-control" [(ngModel)]="text"></textarea>
+      <a class="btn btn-primary" (click)="onSend()">Send</a>
       {{checkSendMessage}}
     </div>
 </div>

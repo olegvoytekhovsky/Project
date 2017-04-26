@@ -11,11 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 import javax.persistence.CascadeType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.TreeSet;
 import java.util.Comparator;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import by.intexsoft.oleg.model.Message;
@@ -71,12 +68,6 @@ public class User implements Comparable<User> {
     @JsonIgnore   
 	@ManyToMany(mappedBy = "friends", fetch = FetchType.EAGER)
 	public Set<User> teammates = new HashSet<User>();
-	
-    /*
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "users_messages", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "message_id"))
-	private List<Message> messages;
-*/
 
     /**
      * Association mapping to {@link Role}
@@ -104,27 +95,9 @@ public class User implements Comparable<User> {
 		this.username = username;
 		this.password = password;
 	}
-	
-	/**
-     * Getter method
-	*@return list all user's {@link Message}s
-	*/
-/*	public List<Message> getMessages() {
-		return messages;
-	};
-
-	/**
-	* Add {@link Message} instance to a list of {@link Message}s
-	*/
-    /*
-	public void addMessage(Message message) {
-		if(messages == null)
-			messages = new ArrayList<Message>();
-		this.messages.add(message);
-	}*/
 
     /**
-     * Overrides for method {@link #Collectons.sort()}
+     * Overrides for method {@link Collectons#sort()}
      * Lexicographic compares {@link #username} with other {@link User} username
      */
     @Override

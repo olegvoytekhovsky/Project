@@ -1,5 +1,6 @@
 import {Component} from "@angular/core";
 import {JwtHelper} from "angular2-jwt";
+import {Subscription} from "rxjs/Subscription";
 import {User} from "./user";
 import {UserService} from "./user.service";
 import {Forum} from "./forum";
@@ -15,6 +16,8 @@ export class AdminPanelComponent {
     private forums: Forum[];
     private userInterval: number;
     private forumInterval: number;
+    private userSubscription: Subscription;
+    private forumSubscription: Subscription;
     private jwtHelper: JwtHelper = new JwtHelper();
     private username = this.jwtHelper.decodeToken(localStorage.getItem('currentUser')).sub;
     private noUser = "";
@@ -26,7 +29,7 @@ export class AdminPanelComponent {
         this.userService.loadUsers().subscribe(users => {
             this.users = users;
             this.userInterval = setInterval(() => {
-                this.userService.loadUsers().subscribe(users => this.users = users, error => {
+                this.userSubscription = this.userService.loadUsers().subscribe(users => this.users = users, error => {
                     console.log("Error load/subscribe users " + error);
                     return error;
                 });
@@ -38,7 +41,7 @@ export class AdminPanelComponent {
         this.forumService.loadAllForums().subscribe(forums => {
             this.forums = forums;
             this.forumInterval = setInterval(() => {
-                this.forumService.loadAllForums().subscribe(forums => this.forums = forums, error => {
+                this.forumSubscription = this.forumService.loadAllForums().subscribe(forums => this.forums = forums, error => {
                     console.log('Error load/subscribe all forums');
                     return error;
                 });
@@ -65,6 +68,10 @@ export class AdminPanelComponent {
 
     ngOnDestroy() {
         clearInterval(this.userInterval);
+        if(this.userSubscription)
+            this.userSubscription.unsubscribe();
         clearInterval(this.forumInterval);
+        if(this.forumSubscription)
+            this.forumSubscription.unsubscribe();
     }
 }

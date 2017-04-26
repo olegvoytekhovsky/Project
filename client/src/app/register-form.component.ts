@@ -33,7 +33,14 @@ export class RegisterFormComponent {
                     this.userStatus = result;
                     if(this.userStatus == 'Busy') {
                         this.error = 'Username already exists';
-                    } else this.success = 'A user account was created. Please, log in';
+                    } else {
+                        this.success = 'A user account was created. Please, log in';
+                        this.firstname = '';
+                        this.lastname = '';
+                        this.username = '';
+                        this.password = '';
+                        this.confirmPassword = '';
+                    }
                     return result;
                 },
                 error => {
@@ -43,28 +50,5 @@ export class RegisterFormComponent {
                 });
             } else this.errorPassword = 'Password does not match the confirm password';
         }
-    }
-
-    onFirstname(firstname: string) {
-        this.firstname = firstname;
-    }
-
-    onLastname(lastname: string) {
-        this.lastname = lastname;
-    }
-
-    onUsername(username: string) {
-        this.username = username;
-    }
-
-    onPassword(password: string) {
-        this.password = password;
-    }
-
-    onConfirmPassword(confirmPassword: string) {
-        this.confirmPassword = confirmPassword;
-    }
-    goForum() { 
-        this.router.navigate(['/main-page']);
     }
 }

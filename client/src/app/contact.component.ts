@@ -17,6 +17,7 @@ export class ContactComponent {
     interval: any;
     private subscription: Subscription;
     private forumId: string;
+    private text: string = '';
     checkSendMessage: string;
     checkGetMessages: string;
     checkGetUsers: string;
@@ -45,7 +46,7 @@ export class ContactComponent {
                         this.interval = setInterval(() => this.subscription = this.messageService.getMessages(this.messagesGetUrl, params['id'])
                                                     .subscribe(messages => {
                                                         this.messages = messages;          
-                                                    }), 2000);
+                                                    }), 3000);
                 }, error => {
                    console.log(error);
                    return error;
@@ -57,6 +58,8 @@ export class ContactComponent {
 
     ngOnDestroy() {
         clearInterval(this.interval);
+        if(this.subscription)
+            this.subscription.unsubscribe();
     }
 
     findForumId(username: string) {
@@ -86,9 +89,10 @@ export class ContactComponent {
         });
     }
 */
-    onSend(message: string) {
-        this.messageService.create(message, this.messageCreateUrl, this.forumId).subscribe(message => {
+    onSend() {
+        this.messageService.create(this.text, this.messageCreateUrl, this.forumId).subscribe(message => {
             this.checkSendMessage = '';
+            this.text = '';
         }, error => this.checkSendMessage = 'error send message ' + error);
     }
 }

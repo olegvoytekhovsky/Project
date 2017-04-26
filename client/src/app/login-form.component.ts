@@ -8,8 +8,8 @@ import {AuthenticationService} from "./authentication.service";
 })
 
 export class LoginFormComponent {
-    private username: string;
-    private password: string;
+    private username: string = '';
+    private password: string = '';
     private authenticationMessage: string;
     
     constructor(private router: Router, private authenticationService: AuthenticationService) {}
@@ -24,14 +24,6 @@ export class LoginFormComponent {
             console.log(error);
                   return error;
         });
-    }
-
-    onUsername(username: string) {
-       this.username = username;
-    }
-
-    onPassword(password: string) {
-        this.password = password;
     }
 }
 

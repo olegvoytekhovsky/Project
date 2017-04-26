@@ -28,7 +28,7 @@
         </li>
         {{checkGetUsers}}
        </ul>
-       <input #box type="text" class="form-control" value="Search users" (keyup.enter)="onSearch(box.value)">
+       <input type="text" class="form-control" placeholder="Search users" [(ngModel)]="usernameSearch" (keyup.enter)="onSearch()">
     </div>
 </div>
 

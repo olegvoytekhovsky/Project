@@ -1,6 +1,7 @@
 package by.intexsoft.oleg.controller;
 
 import java.util.List;
+import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +32,10 @@ public class MessageController {
 	private List<Message> getForumMessages(@PathVariable int id) {
 		LOGGER.info("Start to load forum's messages");
 		List<Message> messages = forumService.findById(id).getMessages();
+        Collections.sort(messages);
 		return messages;
 	}	
-/*	
-	@RequestMapping("/get/user/message/{username}")
-	private List<Message> getUserMessages(@PathVariable String username) {
-		LOGGER.info("Start to load user's messages");
-		List<Message> messages = userService.findByUsername(username).getMessages();
-		return messages;
-	}
-*/
+
 	@RequestMapping(value = "/save/forum/message/{id}/{username}", method = RequestMethod.POST)
 	private Message saveForumMessage(@PathVariable int id, @PathVariable String username, @RequestBody String mes) {
 		LOGGER.info("Start to save forum's message");
@@ -51,13 +46,4 @@ public class MessageController {
 		forumService.save(forum);
 		return message; 
 	}
-/*
-	@RequestMapping(value = "/save/user/message/{username}", method = RequestMethod.POST)
-	private Message saveUserMessage(@PathVariable String username, @RequestBody Message message) {
-		LOGGER.info("Start to save user's message");
-		User user = userService.findByUsername(username);
-		user.addMessage(message);
-		userService.save(user);
-		return message;
-	}*/
 }

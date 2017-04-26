@@ -4,16 +4,16 @@
     <div><h2><a routerLink="/register">Create account</a></h2></div>
     <form>
         <div>
-            <label for="username">Username</label>
-            <input #usernameBox type="text" class="form-control" id="username" (keyup)="onUsername(usernameBox.value)" required>
+            <label for="uName">Username</label>
+            <input type="text" class="form-control" id="uName" name="nameUser" [(ngModel)]="username" required>
         </div>
 
         <div>
-            <label for="password">Password</label>
-            <input #passwordBox type="password" class="form-control" (keyup)="onPassword(passwordBox.value)" required>
+            <label for="pass">Password</label>
+            <input type="password" class="form-control" id="pass" name="namePass" [(ngModel)]="password" required>
         </div>
 
-        <button type="submit" class="btn btn-success" (click)="onLogin()">Login</button>
+        <button type="submit" class="btn btn-success" id="loginButton" (click)="onLogin()">Login</button>
         
         {{authenticationMessage}}
       </form>

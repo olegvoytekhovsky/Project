@@ -16,7 +16,7 @@ import by.intexsoft.oleg.model.User;
  */
 @Entity
 @Table(name = "messages")
-public class Message extends AbstractPersistable<Integer> {
+public class Message extends AbstractPersistable<Integer> implements Comparable<Message> {
    	/**
 	 * Specify the details of the column to which a field will be mapped
 	 */
@@ -48,5 +48,14 @@ public class Message extends AbstractPersistable<Integer> {
 	public String getMessage() {
 		return message;
 	}
+
+    /**
+     * Overrides for method {@link Collectons#sort()}
+     * Compare messages by id
+     */
+    @Override
+    public int compareTo(Message otherMessage) {
+        return getId() > otherMessage.getId() ? 1 : getId() == otherMessage.getId() ? 0 : -1;
+    }
 
 }
