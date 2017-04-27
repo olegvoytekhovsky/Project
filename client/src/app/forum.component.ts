@@ -51,7 +51,7 @@ export class ForumComponent implements OnInit {
                         }, error => {
                             console.log('Error get inner messages ' + error);
                             return error;
-                        }), 3000);
+                        }), 2000);
                     }, error => {
                             console.log('Error get forum messages ' + error);
                             return error;

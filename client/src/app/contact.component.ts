@@ -46,7 +46,7 @@ export class ContactComponent {
                         this.interval = setInterval(() => this.subscription = this.messageService.getMessages(this.messagesGetUrl, params['id'])
                                                     .subscribe(messages => {
                                                         this.messages = messages;          
-                                                    }), 3000);
+                                                    }), 2000);
                 }, error => {
                    console.log(error);
                    return error;

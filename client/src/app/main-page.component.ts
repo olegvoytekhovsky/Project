@@ -83,7 +83,8 @@ export class MainPageComponent implements OnInit {
     }
 
     onSearch() {
-        this.router.navigate(['/main-page/search', this.usernameSearch]);
+        if(this.usernameSearch)
+            this.router.navigate(['/main-page/search', this.usernameSearch]);
         this.usernameSearch = '';
     }
 
