@@ -14,16 +14,16 @@ import {Forum} from "./forum";
 })
 
 export class MainPageComponent implements OnInit {
-    users: User[] = [];
-    forums: Forum[];
-    forumId: string;
+    private users: User[] = [];
+    private forums: Forum[];
+    private forumId: string;
     private usernameSearch: string ='';
     private forumInterval: number;
     private userInterval: number;
     private userSubscription: Subscription;
     private forumSubscription: Subscription;
-    checkGetForums: string;
-    checkGetUsers: string;
+    private checkGetForums: string;
+    private checkGetUsers: string;
     private jwtHelper: JwtHelper = new JwtHelper();
     private currentUsername = this.jwtHelper.decodeToken(localStorage.getItem('currentUser')).sub;
     private authority = this.jwtHelper.decodeToken(localStorage.getItem('currentUser')).scopes;
@@ -53,17 +53,7 @@ export class MainPageComponent implements OnInit {
                 console.log('Error get users ' + error);
                 return error;
             });    
-            /*this.getForums();
-            this.getUsers();
-            this.forumService.forumAdded$.subscribe(forum => this.forums.push(forum), error => {
-                console.log("Error add forum to forums by service " + error);
-                return error;
-            });
-            this.userService.userAdded$.subscribe(user => this.users.push(user), error => {
-                console.log("Error add user to users by service " + error);
-                return error;
-            });*/
-    }
+}
 
     ngOnDestroy() {
         clearInterval(this.forumInterval);
@@ -109,7 +99,6 @@ export class MainPageComponent implements OnInit {
 
     onLogOut() {
         localStorage.removeItem('currentUser');
-        //this.router.navigate(['/login']);
     }
     onClick() {
         this.router.navigate(['/add-forum']);

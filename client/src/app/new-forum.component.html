@@ -3,17 +3,17 @@
     <form>
         <div>
             <label>Title</label>
-            <input #boxTitle type="text" class="form-control" (keyup)="onTitle(boxTitle.value)">
+            <input  type="text" class="form-control" name="tName" [(ngModel)]="title">
         </div>
         <div>
             <label>Invite users</label>
-            <textarea #boxUsersNames class="form-control" (keyup)="onUsersNames(boxUsersNames.value)"></textarea>
+            <textarea class="form-control" name="uName" [(ngModel)]="usernames"></textarea>
             {{invalidUsersMessage}}
         </div>
 
         <div>
             <label>Description</label>
-            <textarea #boxDescription class="form-control" (keyup)="onDescription(boxDescription.value)"></textarea>
+            <textarea class="form-control" name="dName" [(ngModel)]="description"></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary"

@@ -10,9 +10,9 @@ import {ForumService} from "./forum.service";
 })
 
 export class ContactDetailsComponent {
-    user = new User('','');
-    username: string;
-    friend: string;
+    private user = new User('','');
+    private username: string;
+    private friend: string;
     private jwtHelper: JwtHelper = new JwtHelper();
     private token = localStorage.getItem('currentUser');
     private currentUsername = this.jwtHelper.decodeToken(this.token).sub; 

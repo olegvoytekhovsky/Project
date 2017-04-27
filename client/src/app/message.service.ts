@@ -18,7 +18,6 @@ export class MessageService {
     create(message: string, url: string, id: string): Observable<Message> {
         let headers = new Headers({'Authorization': this.token});
         let options = new RequestOptions({headers: headers});
-        let mes = new Message(message);
         return this.http.post(url + id + '/' + this.username, message, options).map(this.extractData);
     }
 

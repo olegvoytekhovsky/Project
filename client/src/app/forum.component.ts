@@ -24,6 +24,7 @@ export class ForumComponent implements OnInit {
     private messageCreateUrl = 'api/save/forum/message/'; 
     private messagesGetUrl = 'api/get/forum/message/';
     private text: string = '';
+    private forumsPresent = false;
 
     constructor(private route: ActivatedRoute,
                 private forumService: ForumService,
@@ -31,18 +32,6 @@ export class ForumComponent implements OnInit {
     }
 
     ngOnInit() {
-       /* this.forumService.getForums().subscribe(forums => {
-            if(forums.length == 0)
-                this.startMessage = 'You can add friends or create forums';
-            else {
-                this.forum = forums[0];
-                this.id = this.forum.id.toString();
-                this.getMessages(this.messageGetUrl, this.id);
-            }
-        }, error => {
-            console.log('Error get forums ' + error);
-            return error;
-        });*/
         this.route.params
             .forEach((params: Params) => {
                 if(params['id']) {
@@ -85,9 +74,11 @@ export class ForumComponent implements OnInit {
 
     private getForums() {
         this.forumService.getForums().subscribe(forums => {
-            if(forums.length == 0)
+            if(forums.length == 0) {
                 this.startMessage = 'You can add friends or create forums';
+            }
             else if(!this.id) {
+                this.forumsPresent = true;
                 this.forum = forums[0];
                 this.id = this.forum.id.toString();
                 this.messageService.getMessages(this.messagesGetUrl, this.forum.id.toString())
@@ -105,6 +96,7 @@ export class ForumComponent implements OnInit {
                 });
             }
             else {
+                this.forumsPresent = true;
                 let id = +this.id;
                 this.forum = forums.find(element => element.id == id);
             }

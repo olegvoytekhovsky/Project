@@ -5,7 +5,9 @@
     "build": "rimraf dist && webpack --progress",
     "server": "webpack-dev-server --inline --progress --port 3000",
     "start": "npm run server",
-    "test": "concurrently \"sudo webdriver-manager update\" \"webdriver-manager start\" \"protractor conf.js\""
+    "selenium_update": "sudo webdriver-manager update",
+    "selenium_start": "webdriver-manager start",
+    "test": "protractor conf.js"
   },
   "dependencies": {
     "@angular/common": "~2.4.0",

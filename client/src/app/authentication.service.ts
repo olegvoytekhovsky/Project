@@ -5,7 +5,6 @@ import "rxjs/add/operator/map";
 
 @Injectable()
 export class AuthenticationService {
-    token: string;
     constructor(private http: Http) {}
 
     login(username: string, password: string): Observable<boolean> {
@@ -13,10 +12,9 @@ export class AuthenticationService {
         let options = new RequestOptions({headers: headers});
         return this.http.post('/project/login', JSON.stringify({username: username, password: password}), options)
         .map((response: Response) => {
-            var token = response.headers.get("Authorization").slice(7);
+            let token = response.headers.get("Authorization").slice(7);
             if(token != null) {
                 localStorage.setItem('currentUser', token);
-                this.token = token.slice(7);
                 return true;
             } else {
                 return false;

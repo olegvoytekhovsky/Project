@@ -8,12 +8,12 @@ import {ForumService} from "./forum.service";
 })
 
 export class NewForumComponent {
-    statusForumCreation: String;
-    invalidUsersMessage: String;
-    title: string;
-    usernames: string;
-    description: string;
-    forum: Forum;
+    private statusForumCreation: String;
+    private invalidUsersMessage: String;
+    private title: string;
+    private usernames: string;
+    private description: string;
+    private forum: Forum;
 
     constructor(private forumService: ForumService, private router: Router) {
     }
@@ -39,17 +39,4 @@ export class NewForumComponent {
                 return error;
             });
     }
-
-    onTitle(title: string) {
-        this.title = title;
-    }
-
-    onUsersNames(usernames: string) {
-        this.usernames = usernames;
-    }
-
-    onDescription(description: string) {
-        this.description = description;
-    }
-
 }

@@ -8,9 +8,9 @@ import {User} from "./user";
 })
 
 export class SearchComponent {
-    user = new User('','');
-    userNo: String;
-    value: string;
+    private user = new User('','');
+    private userNo: String;
+    private value: string;
     private buttonDisabled = false;
     private userFound: string;
     constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {

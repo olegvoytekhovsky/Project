@@ -9,16 +9,16 @@ import {UserService} from "./user.service";
 })
 
 export class RegisterFormComponent {
-    firstname: string = '';
-    lastname: string = '';
-    username: string = '';
-    password: string = '';
-    confirmPassword: string = '';
-    userStatus: String;
-    success: string = '';
-    error: string = '';
-    errorPassword: string = '';
-    errorPost: any;
+    private firstname: string = '';
+    private lastname: string = '';
+    private username: string = '';
+    private password: string = '';
+    private confirmPassword: string = '';
+    private userStatus: String;
+    private success: string = '';
+    private error: string = '';
+    private errorPassword: string = '';
+    private errorPost: any;
 
     constructor(private router: Router, private userService: UserService) {
     }

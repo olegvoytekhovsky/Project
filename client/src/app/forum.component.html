@@ -7,6 +7,7 @@
     width: 370px;
   }
   .outer {
+    height: 450px;
     width: 100%;
     overflow: auto;
   }
@@ -23,7 +24,7 @@
       <p>{{checkGetForum}}</p>
       <p>{{checkGetMessages}}</p>
     </div>
-    <div class="box" id="sendMessage">
+    <div class="box" id="sendMessage" *ngIf="forumsPresent">
       <textarea #textArea class="form-control" [(ngModel)]="text"></textarea>
       <a class="btn btn-primary" (click)="onSend()">Send</a>
       {{checkSendMessage}}

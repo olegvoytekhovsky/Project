@@ -11,16 +11,16 @@ import {MessageService} from "./message.service";
 })
 
 export class ContactComponent {
-    user = new User('1', '');
-    messages: Message[];
-    username: string;
-    interval: any;
+    private user = new User('1', '');
+    private messages: Message[];
+    private username: string;
+    private interval: any;
     private subscription: Subscription;
     private forumId: string;
     private text: string = '';
-    checkSendMessage: string;
-    checkGetMessages: string;
-    checkGetUsers: string;
+    private checkSendMessage: string;
+    private checkGetMessages: string;
+    private checkGetUsers: string;
     private userMessagesUrlGet = 'api/get/user/message/';
     private messageCreateUrl = 'api/save/forum/message/'; 
     private messagesGetUrl = 'api/get/forum/message/';
@@ -68,27 +68,7 @@ export class ContactComponent {
             return error;
         });
     }
-/*
-    getForumMessages(url: string, forumId: string) {
-        this.messageService.getMessages(url, forumId)
-            .subscribe(messages => {
-                this.messages = messages;
-            }, error => this.checkGetMessages = 'error get forum messages ' + error);
-    }
-/*
-    updateForumMessages(url:string, forumId: string) {
-        this.messageService.getMessages(url, forumId).subscribe(messages => {
-            this.messages = messages;
-            for(let message of messages) {
-                console.log(message.message);
-                if(!this.messages.find(element => element.id == message.id)) {
-                    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaif work, not found' + message);
-                    this.messages.push(message);
-                }
-            }
-        });
-    }
-*/
+
     onSend() {
         this.messageService.create(this.text, this.messageCreateUrl, this.forumId).subscribe(message => {
             this.checkSendMessage = '';
