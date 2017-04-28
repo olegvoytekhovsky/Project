@@ -8,10 +8,9 @@ import by.intexsoft.oleg.repository.ForumRepository;
 import by.intexsoft.oleg.service.ForumService;
 
 /**
- * Class implements interface {@link ForumService} and class is a service with
- * name ("forumService")
+ * Class implements interface {@link ForumService} and class is a service
  */
-@Service("forumService")
+@Service
 public class ForumServiceImpl implements ForumService {
 	@Autowired
 	private ForumRepository forumRepository;

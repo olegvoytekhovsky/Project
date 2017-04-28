@@ -26,6 +26,9 @@ export class NewForumComponent {
                     this.forumService.createForum(this.title, this.description)
                         .subscribe(forum => {
                            this.statusForumCreation = '';
+                           this.title = '';
+                           this.usernames = '';
+                           this.description = '';
                            this.forumService.addForum(forum);
                        }, error => {
                            this.statusForumCreation = error + '';

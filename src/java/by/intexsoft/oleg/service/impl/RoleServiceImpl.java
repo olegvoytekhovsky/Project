@@ -7,10 +7,9 @@ import by.intexsoft.oleg.repository.RoleRepository;
 import by.intexsoft.oleg.service.RoleService;
 
 /**
- * Class implements interface {@link RoleService} and class is a service with
- * name ("roleService")
+ * Class implements interface {@link RoleService} and class is a service
  */
-@Service("roleService")
+@Service
 public class RoleServiceImpl implements RoleService {
 	@Autowired
 	private RoleRepository roleRepository;

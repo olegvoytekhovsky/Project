@@ -9,10 +9,9 @@ import by.intexsoft.oleg.repository.UserRepository;
 import by.intexsoft.oleg.service.UserService;
 
 /**
- * Class implements interface {@link UserService} and class is a Service with
- * name ("userService")
+ * Class implements interface {@link UserService} and class is a Service
  */
-@Service("userService")
+@Service
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
