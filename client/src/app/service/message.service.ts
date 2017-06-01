@@ -4,7 +4,7 @@ import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/map";
 import {JwtHelper} from "angular2-jwt";
-import {Message} from "./message";
+import {Message} from "../model/message";
 
 @Injectable()
 export class MessageService {

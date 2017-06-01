@@ -1,10 +1,10 @@
 import {Component} from "@angular/core";
 import {JwtHelper} from "angular2-jwt";
 import {Subscription} from "rxjs/Subscription";
-import {User} from "./user";
-import {UserService} from "./user.service";
-import {Forum} from "./forum";
-import {ForumService} from "./forum.service";
+import {User} from "../model/user";
+import {UserService} from "../service/user.service";
+import {Forum} from "../model/forum";
+import {ForumService} from "../service/forum.service";
 
 @Component({
     templateUrl: "./admin-panel.component.html",
@@ -20,8 +20,9 @@ export class AdminPanelComponent {
     private forumSubscription: Subscription;
     private jwtHelper: JwtHelper = new JwtHelper();
     private username = this.jwtHelper.decodeToken(localStorage.getItem('currentUser')).sub;
-    private noUser = "";
     private noForum: number;
+    private noUser: string;
+    private countUserDeleting = 0;
 
     constructor(private userService: UserService, private forumService: ForumService) {}
 
@@ -33,7 +34,7 @@ export class AdminPanelComponent {
                     console.log("Error load/subscribe users " + error);
                     return error;
                 });
-            }, 5000);
+            }, 1000);
         }, error => {
             console.log('Error load/subscribe users ' + error)
             return error;
@@ -45,7 +46,7 @@ export class AdminPanelComponent {
                     console.log('Error load/subscribe all forums');
                     return error;
                 });
-            }, 5000);
+            }, 1000);
         }, error => {
             console.log('Error load/subscribe all forums');
             return error
@@ -73,5 +74,9 @@ export class AdminPanelComponent {
         clearInterval(this.forumInterval);
         if(this.forumSubscription)
             this.forumSubscription.unsubscribe();
+    }
+
+    onClicked() {
+        return false;
     }
 }

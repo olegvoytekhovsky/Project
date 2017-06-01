@@ -2,10 +2,10 @@ import {Component, OnInit} from "@angular/core";
 import {Router, ActivatedRoute, Params} from "@angular/router";
 import {Subscription} from "rxjs/Subscription";
 import {JwtHelper} from "angular2-jwt";
-import {UserService} from "./user.service";
-import {ForumService} from "./forum.service";
-import {User} from "./user";
-import {Forum} from "./forum";
+import {UserService} from "../service/user.service";
+import {ForumService} from "../service/forum.service";
+import {User} from "../model/user";
+import {Forum} from "../model/forum";
 
 @Component({
     selector: 'main-page',
@@ -23,7 +23,7 @@ export class MainPageComponent implements OnInit {
     private userSubscription: Subscription;
     private forumSubscription: Subscription;
     private checkGetForums: string;
-    private checkGetUsers: string;
+    private checkLoadFriends: string;
     private jwtHelper: JwtHelper = new JwtHelper();
     private currentUsername = this.jwtHelper.decodeToken(localStorage.getItem('currentUser')).sub;
     private authority = this.jwtHelper.decodeToken(localStorage.getItem('currentUser')).scopes;
@@ -43,14 +43,14 @@ export class MainPageComponent implements OnInit {
                 return error;
             });
 
-            this.userService.getUsers().subscribe(users => {
+            this.userService.loadFriends().subscribe(users => {
                 this.users = users;
-                this.userInterval = setInterval(() => this.userSubscription = this.userService.getUsers().subscribe(users => this.users = users, error => {
-                    console.log('Error get users from interval ' + error);
+                this.userInterval = setInterval(() => this.userSubscription = this.userService.loadFriends().subscribe(users => this.users = users, error => {
+                    console.log('Error load friends from interval ' + error);
                     return error;
                 }), 5000); 
             }, error => {
-                console.log('Error get users ' + error);
+                console.log('Error load friends ' + error);
                 return error;
             });    
 }
@@ -65,8 +65,8 @@ export class MainPageComponent implements OnInit {
     }
 
     getUsers() {
-        this.userService.getUsers().subscribe(users => this.users = users.sort(),
-            error => this.checkGetUsers = 'error get users' + error);
+        this.userService.loadFriends().subscribe(users => this.users = users.sort(),
+            error => this.checkLoadFriends = 'error load friends' + error);
     }
 
     getForums() {

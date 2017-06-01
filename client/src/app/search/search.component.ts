@@ -1,7 +1,8 @@
 import {Component, Output} from "@angular/core";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {UserService} from "./user.service";
-import {User} from "./user";
+import {UserService} from "../service/user.service";
+import {ForumService} from "../service/forum.service";
+import {User} from "../model/user";
 
 @Component({
     templateUrl: './search.component.html',
@@ -11,9 +12,8 @@ export class SearchComponent {
     private user = new User('','');
     private userNo: String;
     private value: string;
-    private buttonDisabled = false;
     private userFound: string;
-    constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {
+    constructor(private forumService: ForumService, private userService: UserService, private router: Router, private route: ActivatedRoute) {
     }
 
     ngOnInit() {
@@ -52,12 +52,20 @@ export class SearchComponent {
     }
 
     onAddFriend() {
-       this.userService.addFriend(this.value).subscribe(result => {
-            this.userService.addUser(result);
-            this.router.navigate(['main-page']);
-            this.buttonDisabled = true;
+       this.userService.addFriend(this.value).subscribe(friend => {
+            this.userService.addUser(friend);
+            this.navigateToFriend(friend.username);
        }, error => {
-        console.log('Error add to friend' + error);
+        console.log('Error add to friends' + error);
+        return error;
+       }); 
+    }
+
+    navigateToFriend(username: string) {
+       this.forumService.findForumId(username).subscribe(id => {
+            this.router.navigate(['/main-page/direct-message', username, id]);
+       }, error => {
+        console.log('Error load/find forum id ' + error);
         return error;
        }); 
     }

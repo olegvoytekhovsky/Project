@@ -5,11 +5,11 @@ import {Subject} from "rxjs/Subject";
 import "rxjs/add/operator/catch";
 import "rxjs/add/operator/map";
 import {JwtHelper} from "angular2-jwt";
-import {User} from "./user";
+import {User} from "../model/user";
 
 @Injectable()
 export class UserService {
-    private usersUrl = 'api/get/friends/';
+    private friendsUrl = 'api/load/friends/';
     private usersLoadUrl = 'api/load/users';
     private userLoadUrl = 'api/load/user/';
     private userFindUrl = 'api/find/user/';
@@ -39,18 +39,18 @@ export class UserService {
         let options =  new RequestOptions({headers: headers});
         return this.http.post(this.userCreateUrl, {username, password, firstname, lastname}, options).map(this.extractStringData)
         .catch(error => {
-            console.log(error);
+            console.log('Error post request - createUser ' + error);
             return error;
         });
     }
 
-    getUsers(): Observable<User[]> {
+    loadFriends(): Observable<User[]> {
         let username = this.jwtHelper.decodeToken(this.token).sub;
         let headers = new Headers({'Authorization': this.token});
         let options = new RequestOptions({headers: headers}); 
-        return this.http.get(this.usersUrl + username, options).map(this.extractData)
+        return this.http.get(this.friendsUrl + username, options).map(this.extractData)
         .catch(error => {
-            console.log(error);
+            console.log('Error get request - getUsers ' + error);
             return error;
         });
     }
@@ -60,7 +60,7 @@ export class UserService {
         let options = new RequestOptions({headers: headers});
         return this.http.get(this.userLoadUrl + username, options).map(this.extractData)
         .catch(error => {
-            console.log(error);
+            console.log('Error post request - loadUser ' + error);
             return error;
        }); 
     }
@@ -70,7 +70,7 @@ export class UserService {
         let options = new RequestOptions({headers: headers});
         return this.http.get(this.usersLoadUrl, options).map(this.extractData)
         .catch(error => {
-            console.log("Error load users " + error);
+            console.log("Error get request load users " + error);
             return error;
         })
     }
@@ -80,7 +80,7 @@ export class UserService {
         let options = new RequestOptions({headers: headers});
         return this.http.get(this.userFindUrl + username, options).map(this.extractStringData)
         .catch(error => {
-            console.log(error);
+            console.log('Error get request ' + error);
             return error;
         });
     }
@@ -91,18 +91,18 @@ export class UserService {
         let options = new RequestOptions({headers: headers});
         return this.http.post(this.userIsFriendUrl + username, usernameFriend, options).map(this.extractStringData)
         .catch(error => {
-            console.log(error);
+            console.log('Error post request ' + error);
             return error;
         });
     }
 
-    addFriend(usernameFriend: string): Observable<User> {
+    addFriend(friendUsername: string): Observable<User> {
         let username = this.jwtHelper.decodeToken(this.token).sub;
         let headers = new Headers({'Authorization': this.token});
         let options = new RequestOptions({headers: headers});
-        return this.http.post(this.userAddFriendUrl + username, usernameFriend, options).map(this.extractData)
+        return this.http.post(this.userAddFriendUrl + username, friendUsername, options).map(this.extractData)
         .catch(error => {
-            console.log(error);
+            console.log('Error post request ' + error);
             return error;
         });
     } 

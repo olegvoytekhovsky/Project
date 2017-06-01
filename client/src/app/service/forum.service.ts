@@ -5,7 +5,7 @@ import {Subject} from "rxjs/Subject";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import {JwtHelper} from "angular2-jwt";
-import {Forum} from "./forum";
+import {Forum} from "../model/forum";
 
 @Injectable()
 export class ForumService {

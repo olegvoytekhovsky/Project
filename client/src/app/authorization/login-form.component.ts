@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "./authentication.service";
+import {AuthenticationService} from "../service/authentication.service";
 
 @Component({
     providers: [AuthenticationService],
@@ -10,19 +10,21 @@ import {AuthenticationService} from "./authentication.service";
 export class LoginFormComponent {
     private username: string = '';
     private password: string = '';
-    private authenticationMessage: string;
+    private error: string = '';
     
     constructor(private router: Router, private authenticationService: AuthenticationService) {}
 
     onLogin() {
+        this.error = '';
         this.authenticationService.login(this.username, this.password)
         .subscribe(result => {
-            if(result == true)
-                this.router.navigate(['/main-page']);
-            else this.authenticationMessage = "Invalid username or password"; 
+            if(result == true) {
+                this.router.navigate(['/main-page']); 
+            } 
         }, error => {
-            console.log(error);
-                  return error;
+            this.error = this.authenticationService.error401;
+            console.log('Error log in ' + error);
+                return error;
         });
     }
 }

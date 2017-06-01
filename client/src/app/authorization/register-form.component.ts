@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 import {Router} from "@angular/router";
-import {User} from "./user";
-import {UserService} from "./user.service";
+import {User} from "../model/user";
+import {UserService} from "../service/user.service";
 
 @Component({
     providers: [UserService],
@@ -33,7 +33,11 @@ export class RegisterFormComponent {
                     this.userStatus = result;
                     if(this.userStatus == 'Busy') {
                         this.error = 'Username already exists';
-                    } else {
+                    } 
+                    else if(this.userStatus == 'Character in not supported') {
+                        this.error = 'Password characters is not supported';
+                    }
+                    else {
                         this.success = 'A user account was created. Please, log in';
                         this.firstname = '';
                         this.lastname = '';

@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 import {Router} from "@angular/router";
-import {Forum} from "./forum";
-import {ForumService} from "./forum.service";
+import {Forum} from "../model/forum";
+import {ForumService} from "../service/forum.service";
 
 @Component({
     templateUrl: './new-forum.component.html'

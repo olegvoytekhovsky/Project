@@ -1,10 +1,10 @@
 import {Component} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Subscription} from "rxjs/Subscription";
-import {User} from "./user";
-import {Message} from "./message";
-import {ForumService} from "./forum.service";
-import {MessageService} from "./message.service";
+import {User} from "../model/user";
+import {Message} from "../model/message";
+import {ForumService} from "../service/forum.service";
+import {MessageService} from "../service/message.service";
 @Component({
     providers: [ForumService, MessageService],
     templateUrl: './contact.component.html'

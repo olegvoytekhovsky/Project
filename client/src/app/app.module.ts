@@ -4,15 +4,15 @@ import {FormsModule} from "@angular/forms";
 import {RouterModule, Routes} from "@angular/router";
 import {HttpModule} from "@angular/http";
 import {AppComponent} from "./app.component";
-import {LoginFormComponent} from "./login-form.component";
-import {RegisterFormComponent} from "./register-form.component";
-import {MainPageComponent} from "./main-page.component";
-import {ForumComponent} from "./forum.component";
-import {ContactComponent} from "./contact.component";
-import {ContactDetailsComponent} from "./contact-details.component";
-import {SearchComponent} from "./search.component";
-import {NewForumComponent} from "./new-forum.component";
-import {AdminPanelComponent} from "./admin-panel.component";
+import {LoginFormComponent} from "./authorization/login-form.component";
+import {RegisterFormComponent} from "./authorization/register-form.component";
+import {MainPageComponent} from "./main-page/main-page.component";
+import {ForumComponent} from "./forum/forum.component";
+import {ContactComponent} from "./contact/contact.component";
+import {ContactDetailsComponent} from "./contact/contact-details.component";
+import {SearchComponent} from "./search/search.component";
+import {NewForumComponent} from "./forum/new-forum.component";
+import {AdminPanelComponent} from "./admin-panel/admin-panel.component";
 
 const appRoutes: Routes = [
     {path: 'login', component: LoginFormComponent},

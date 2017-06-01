@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.Base64;
+import java.io.UnsupportedEncodingException;
 
 import by.intexsoft.oleg.model.Forum;
 import by.intexsoft.oleg.model.User;
@@ -39,8 +41,8 @@ public class UserController {
         return userService.findAll();
     }
 
-	@RequestMapping("/get/friends/{username}")
-	private List<User> getUsers(@PathVariable String username) {
+	@RequestMapping("/load/friends/{username}")
+	private List<User> loadFriends(@PathVariable String username) {
 		LOGGER.info("Start to load friends from database");
         User user = userService.findByUsername(username);
         user.friends.addAll(user.teammates);
@@ -70,8 +72,14 @@ public class UserController {
         if(userService.findByUsername(user.username) != null)
             return "Busy";
         user.role = roleService.findByName("ROLE_USER");
+        try {
+        user.password = Base64.getEncoder().encodeToString(user.password.getBytes("utf-8"));
         userService.save(user);
         return "Saved";
+        } catch(UnsupportedEncodingException exception) {
+            System.err.println(exception);
+            return "Character in not supported";
+        }
     }
 
     @RequestMapping("/add/friend/{username}")

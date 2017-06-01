@@ -1,10 +1,12 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Subscription} from "rxjs/Subscription";
-import {Forum} from "./forum";
-import {Message} from "./message";
-import {ForumService} from "./forum.service";
-import {MessageService} from "./message.service";
+import {Forum} from "../model/forum";
+import {User} from "../model/user";
+import {Message} from "../model/message";
+import {ForumService} from "../service/forum.service";
+import {UserService} from "../service/user.service";
+import {MessageService} from "../service/message.service";
 
 @Component({
     providers: [MessageService],
@@ -26,8 +28,10 @@ export class ForumComponent implements OnInit {
     private text: string = '';
     private forumsPresent = false;
 
-    constructor(private route: ActivatedRoute,
+    constructor(private router: Router,
+                private route: ActivatedRoute,
                 private forumService: ForumService,
+                private userService: UserService,
                 private messageService: MessageService ) {
     }
 
@@ -75,7 +79,14 @@ export class ForumComponent implements OnInit {
     private getForums() {
         this.forumService.getForums().subscribe(forums => {
             if(forums.length == 0) {
-                this.startMessage = 'You can add friends or create forums';
+                this.userService.loadFriends().subscribe(users => {
+                    if(users.length > 0) {
+                        this.onLoadForumId(users[0].username);
+                    } else this.startMessage = 'You can add friends or create forums';
+                }, error => {
+                    console.log('Error load friends ' + error);
+                    return error;
+                });
             }
             else if(!this.id) {
                 this.forumsPresent = true;
@@ -117,5 +128,14 @@ export class ForumComponent implements OnInit {
                 this.text = '';
                 this.checkSendMessage = '';
             }, error => this.checkSendMessage = 'error send message ' + error);
+    }
+
+    private onLoadForumId(username: string) {
+       this.forumService.findForumId(username).subscribe(id => {
+           this.router.navigate(['/main-page/direct-message', username, id]); 
+       }, error => {
+            console.log('Error get forum id' + error);
+            return error;
+       }); 
     }
 }

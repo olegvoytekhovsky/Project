@@ -1,7 +1,7 @@
 <div>
   <div style="float:left">
     <ul style="list-style-type:none">
-      <li *ngFor="let user of users">{{user.username}}<span *ngIf="user.username != username  && user.username != noUser" style="color:red" (click)="onDeleteUser(user.username)">&#10007;</span></li>
+      <li *ngFor="let user of users">{{user.username}}<span *ngIf="user.username != noUser && user.username != username" style="color:red" (click)="onDeleteUser(user.username)">&#10007;</span></li>
     </ul>
     <a class="btn btn-default" routerLink="/main-page">Back</a>
   </div>

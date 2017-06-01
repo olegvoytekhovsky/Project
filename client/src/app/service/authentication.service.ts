@@ -1,10 +1,15 @@
 import {Injectable} from "@angular/core";
 import {Http, Response, Headers, RequestOptions} from "@angular/http";
 import {Observable} from "rxjs";
+import {Subject} from "rxjs/Subject";
 import "rxjs/add/operator/map";
 
 @Injectable()
 export class AuthenticationService {
+    error401: string = '';
+    errorStatusAddedSource = new Subject<string>();
+    errorStatusAdded$ = this.errorStatusAddedSource.asObservable();
+
     constructor(private http: Http) {}
 
     login(username: string, password: string): Observable<boolean> {
@@ -19,8 +24,11 @@ export class AuthenticationService {
             } else {
                 return false;
             } 
-        }).catch(error => { 
-            console.log(error);
+        }).catch(error => {
+            if(error.status == 401) {
+                this.error401 = 'Invalid username or password';
+            } 
+            console.log('Authentication error ' + error);
             return error
         });
     }

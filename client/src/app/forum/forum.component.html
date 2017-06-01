@@ -4,21 +4,24 @@
     top: 500px;
   }
   .box {
-    width: 370px;
+    width: 510px;
   }
   .outer {
-    height: 440px;
-    width: 100%;
+    height: 400px;
     overflow: auto;
   }
 </style>
 <div class="container" style="width:40%; height:80%; float:left">
-  <div>
+  <div> 
       <h1>{{forum.title}}</h1>
       <h2 *ngIf="startMessage">{{startMessage}}</h2>
       <div class="outer">
         <ul style="list-style-type:none">
-          <li *ngFor="let message of messages"><a routerLink="/main-page/contact-details/{{message.user.username}}"><small>{{message.user.username}}</small></a><br>{{message.message}}</li>
+          <li *ngFor="let message of messages">
+            <div class="well well-small">
+              <a routerLink="/main-page/contact-details/{{message.user.username}}"><small>{{message.user.username}}</small></a><br>{{message.message}}
+            </div>
+          </li>
         </ul>
       </div>
       <p>{{checkGetForum}}</p>

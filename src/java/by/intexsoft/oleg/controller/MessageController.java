@@ -28,7 +28,7 @@ public class MessageController {
 	@Autowired
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-	@RequestMapping("/get/forum/message/{id}")
+	@RequestMapping(value = "/get/forum/message/{id}")
 	private List<Message> getForumMessages(@PathVariable int id) {
 		LOGGER.info("Start to load forum's messages");
 		List<Message> messages = forumService.findById(id).getMessages();

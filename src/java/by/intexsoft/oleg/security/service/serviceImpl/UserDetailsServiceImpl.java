@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory; 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,6 +33,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		LOGGER.info("Start to load user by username");
         User user = new User(username);
 		user = userService.findByUsername(username);
+        byte[] base64decodedBytes = Base64.getDecoder().decode(user.password);
+        user.password = new String(base64decodedBytes); 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		grantedAuthorities.add(new SimpleGrantedAuthority(user.role.name));
 		return new org.springframework.security.core.userdetails.User(user.username, user.password, grantedAuthorities);

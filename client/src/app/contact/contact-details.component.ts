@@ -1,9 +1,9 @@
 import {Component} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {JwtHelper} from "angular2-jwt";
-import {User} from "./user";
-import {UserService} from "./user.service";
-import {ForumService} from "./forum.service";
+import {User} from "../model/user";
+import {UserService} from "../service/user.service";
+import {ForumService} from "../service/forum.service";
 
 @Component({
     templateUrl: './contact-details.component.html',
@@ -56,11 +56,21 @@ export class ContactDetailsComponent {
     }
 
     onAdd() {
-        this.userService.addFriend(this.user.username).subscribe(result => {
+        this.userService.addFriend(this.user.username).subscribe(friend => {
+	    this.navigateToFriend(friend.username);
             this.router.navigate(['main-page']);
         }, error => {
             console.log('Error add to friends ' + error);
             return error;
         }) 
+    }
+
+    navigateToFriend(username: string) {
+       this.forumService.findForumId(username).subscribe(id => {
+            this.router.navigate(['/main-page/direct-message', username, id]);
+       }, error => {
+        console.log('Error load/find forum id ' + error);
+        return error;
+       }); 
     }
 }
